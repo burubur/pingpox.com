@@ -11,6 +11,10 @@ const Header = () => {
     setIsOpen(!isOpen);
   };
 
+  const closeMenu = () => {
+    setIsOpen(false);
+  };
+
   return (
     <header className="bg-black text-white sticky top-0 z-50">
       <div className="container mx-auto flex justify-between items-center p-4">
@@ -89,30 +93,35 @@ const Header = () => {
             <Link
               href="/coaches"
               className="block p-2 border-red-500 hover:border-b-4 hover:border-pink-500 text-center"
+              onClick={closeMenu}
             >
               Pelatih
             </Link>
             <Link
               href="/classes"
               className="block p-2 hover:border-b-4 hover:border-pink-500 text-center"
+              onClick={closeMenu}
             >
               Kelas Latihan
             </Link>
             <Link
               href="/locations"
               className="block p-2 hover:border-b-4 hover:border-pink-500 text-center"
+              onClick={closeMenu}
             >
               Lokasi Latihan
             </Link>
             <Link
               href="/tournaments"
               className="block p-2 hover:border-b-4 hover:border-pink-500 text-center"
+              onClick={closeMenu}
             >
               Turnamen
             </Link>
             <Link
               href="/abouts"
               className="block p-2 hover:border-b-4 hover:border-pink-500 text-center"
+              onClick={closeMenu}
             >
               Tentang Kami
             </Link>
@@ -121,6 +130,7 @@ const Header = () => {
           <Link
             href="/authentications"
             className="block p-2 hover:border-b-4 hover:border-pink-500 text-center py-4"
+            onClick={closeMenu}
           >
             Daftar | Login
           </Link>
