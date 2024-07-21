@@ -12,7 +12,14 @@ const Introduction = () => {
     <div className="flex-grow flex justify-center">
       <div className="w-full md:w-4/5 flex flex-col p-4">
         <div className="flex flex-col space-y-4 h-full">
-          <div className="p-4 flex flex-col md:flex-row-reverse items-center gap-4">
+          <div className="p-4 flex flex-col lg:flex-row items-center gap-4">
+            <Image
+              className="rounded-md w-full md:w-auto"
+              width={800}
+              height={400}
+              alt="image"
+              src="/teaching-1.png"
+            ></Image>
             <div className="p-4 flex flex-col group border border-transparent rounded-lg hover:border-pink-300 space-y-4">
               <h1 className="text-3xl text-center md:text-left">
                 Butuh pelatih yang berpengalaman?
@@ -35,15 +42,15 @@ const Introduction = () => {
                 Booking Pelatih
               </Button>
             </div>
+          </div>
+          <div className="p-4 flex flex-col lg:flex-row items-center gap-4">
             <Image
               className="rounded-md w-full md:w-auto"
               width={800}
               height={400}
               alt="image"
-              src="/teaching-1.png"
+              src="/sparing-2.png"
             ></Image>
-          </div>
-          <div className="p-4 flex flex-col md:flex-row items-center gap-4">
             <div className="p-4 flex flex-col group border border-transparent rounded-lg hover:border-pink-300">
               <h1 className="text-3xl text-center md:text-left mb-4">
                 Butuh lawan yang lebih jago untuk sparing?
@@ -66,15 +73,15 @@ const Introduction = () => {
                 Booking Teman Sparing
               </Button>
             </div>
-            <Image
-              className="rounded-md w-full md:w-auto"
+          </div>
+          <div className="p-4 flex flex-col lg:flex-row-reverse items-center gap-4">
+          <Image
+              className="rounded-md w-full lg:w-auto"
               width={800}
               height={400}
               alt="image"
-              src="/sparing-2.png"
+              src="/court-5.png"
             ></Image>
-          </div>
-          <div className="p-4 flex flex-col md:flex-row-reverse items-center gap-4">
             <div className="p-4 flex flex-col group border border-transparent rounded-lg hover:border-pink-300 space-y-4">
               <h1 className="text-2xl text-center md:text-left">
                 Bagaimana platform pingpox bekerja?
@@ -106,23 +113,8 @@ const Introduction = () => {
                 >
                   Explore Lebih Lanjut
                 </Button>
-                <span className="hidden md:inline">atau</span>
-                <Button
-                  className="self-center md:self-start"
-                  variant="outlined"
-                  color="secondary"
-                >
-                  Pantau Project Pingpox
-                </Button>
               </div>
             </div>
-            <Image
-              className="rounded-md w-full md:w-auto"
-              width={800}
-              height={400}
-              alt="image"
-              src="/court-5.png"
-            ></Image>
           </div>
         </div>
       </div>

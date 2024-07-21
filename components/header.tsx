@@ -124,6 +124,7 @@ const Header = () => {
           >
             Daftar | Login
           </Link>
+          <div className="border-t-2 border-gray-300"></div>
         </div>
       )}
     </header>
