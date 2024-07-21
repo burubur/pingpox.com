@@ -9,7 +9,7 @@ interface CircleImageProps {
   
   const CircleImage: React.FC<CircleImageProps> = ({ src, alt, size }) => {
     return (
-      <div className={`relative overflow-hidden rounded-full w-64 h-64 md:w-96 md:h-96`} style={{ width: size, height: size }}>
+      <div className={`relative overflow-hidden rounded-full`} style={{ width: size, height: size }}>
         <Image src={src} alt={alt} layout="fill" className="object-cover" />
       </div>
     );
@@ -24,7 +24,7 @@ interface CircleImageProps {
         <Divider />
         <div className="flex flex-col md:flex-row justify-evenly items-center p-4 gap-8">
           <div className="flex flex-col items-center">
-            <CircleImage src="/court-5.png" alt="Circle Image"  />
+            <CircleImage src="/court-5.png" alt="Circle Image" className="w-64 h-64 md:w-96 md:h-96" />
             <br />
             <a
               href="https://maps.app.goo.gl/qAicKmJao7NDQ5UZ9"
@@ -35,7 +35,7 @@ interface CircleImageProps {
             </a>
           </div>
           <div className="flex flex-col items-center">
-            <CircleImage src="/court-3.png" alt="Circle Image" />
+            <CircleImage src="/court-3.png" alt="Circle Image" className="w-64 h-64 md:w-96 md:h-96" />
             <br />
             <a
               href="https://maps.app.goo.gl/6r7ekeYk4gMSR7qt7"
@@ -46,7 +46,7 @@ interface CircleImageProps {
             </a>
           </div>
           <div className="flex flex-col items-center">
-            <CircleImage src="/court-4.png" alt="Circle Image" />
+            <CircleImage src="/court-4.png" alt="Circle Image" className="w-64 h-64 md:w-96 md:h-96" />
             <br />
             <a
               href="https://maps.app.goo.gl/UpoeqM2ET6axPvKT8"
