@@ -10,10 +10,11 @@ const config: Config = {
   ],
   theme: {
     screens: {
-      sm: '480px',
-      md: '768px',
-      lg: '976px',
-      xl: '1440px',
+      'sm': '375px',  // iPhone
+      'md': '768px',  // iPad
+      'lg': '1366px', // MacBook Air 11-inch
+      'xl': '1440px', // MacBook Pro 13-inch
+      '2xl': '1536px', // MacBook Pro 16-inch
     },
     fontFamily: {
       sans: ['Graphik', 'sans-serif'],
