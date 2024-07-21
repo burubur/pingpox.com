@@ -4,7 +4,7 @@ import { PiYoutubeLogo, PiInstagramLogo, PiTiktokLogo } from "react-icons/pi";
 
 const Footer = () => {
     return (
-        <div id="footer" className="flex flex-row gap-4 p-4 bottom-0 left-0 right-0">
+        <div id="footer" className="flex flex-row gap-4 p-4 bottom-0 left-0 right-0 bg-black text-white">
             <div id="footer-l" className="basis-1/3 p-5 transition-colors group border border-transparent rounded-lg hover:border-pink-300 hover:dark:bg-neutral-800/10 hover:text-pink-300">
                 <Image src='/pingpox-logo.png' alt="Pingpox Home" width={60} height={60} />
                 <pre>pingpox.com</pre>
