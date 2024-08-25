@@ -27,7 +27,7 @@ import {
 } from "@mui/icons-material";
 import { usePathname } from "next/navigation";
 
-const ProfileMenu = () => {
+const ProfileMenu = ({ signOut }) => {
   return (
     <Paper sx={{ width: 180, maxWidth: "100%" }}>
       <MenuList>
@@ -42,7 +42,7 @@ const ProfileMenu = () => {
           <ListItemIcon>
             <LogoutRounded fontSize="small" />
           </ListItemIcon>
-          <ListItemText>Keluar</ListItemText>
+          <ListItemText onClick={signOut}>Keluar</ListItemText>
         </MenuItem>
       </MenuList>
     </Paper>
@@ -51,7 +51,7 @@ const ProfileMenu = () => {
 
 const SignInOrSignOut = () => {
   const { data: session } = useSession();
-  const avatarImageURL = session?.user?.image;
+  const avatarImageURL = session?.user?.image || "";
   const open = false;
   if (!session) {
     return (
@@ -128,12 +128,7 @@ const CMenu: React.FC<TypeMenu> = ({ urlText, urlLink, isActive }) => {
   );
 };
 
-const CMenuMobile = ({
-  urlText,
-  urlLink,
-  isActive,
-  onClick,
-}) => {
+const CMenuMobile = ({ urlText, urlLink, isActive, onClick }) => {
   var className =
     "block p-2 border-b-4 hover:border-b-4 hover:border-pink-500 text-center";
   if (isActive) {
@@ -143,12 +138,7 @@ const CMenuMobile = ({
   }
 
   return (
-    <Link
-      key={urlLink}
-      href={urlLink}
-      className={className}
-      onClick={onClick}
-    >
+    <Link key={urlLink} href={urlLink} className={className} onClick={onClick}>
       {urlText}
     </Link>
   );
@@ -263,8 +253,7 @@ const Header: React.FC = () => {
           </div>
         )}
       </div>
-      {/* experimental */}
-      {/* <ProfileMenu onClick={toggleProfileMenu} /> */}
+      <ProfileMenu signOut={signOut} />
     </div>
   );
 };
