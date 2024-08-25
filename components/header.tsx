@@ -148,7 +148,9 @@ const CMenuMobile: React.FC<TypeMenu> = ({
       href={urlLink}
       className={className}
       onClick={() => {
-        return onClick;
+        if (onClick != undefined) {
+          onClick(false);
+        }
       }}
     >
       {urlText}
