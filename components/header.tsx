@@ -128,7 +128,7 @@ const CMenu: React.FC<TypeMenu> = ({ urlText, urlLink, isActive }) => {
   );
 };
 
-const CMenuMobile = ({ urlText, urlLink, isActive, onClick }) => {
+const CMenuMobile: React.FC<TypeMenu> = ({ urlText, urlLink, isActive, onClick }) => {
   var className =
     "block p-2 border-b-4 hover:border-b-4 hover:border-pink-500 text-center";
   if (isActive) {
