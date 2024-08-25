@@ -12,7 +12,7 @@ const Introduction = () => {
     <div className="flex-grow flex justify-center">
       <div className="w-full md:w-4/5 flex flex-col p-4">
         <div className="flex flex-col space-y-4 h-full">
-          <div className="p-4 flex flex-col lg:flex-row items-center gap-4">
+          <div className="p-4 flex flex-col lg:flex-row-reverse items-center gap-4">
             <Image
               className="rounded-md w-full md:w-auto"
               width={800}
