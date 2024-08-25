@@ -20,7 +20,7 @@ const Footer = () => {
             height={60}
           />
         </div>
-        <div className="p-4">
+        <div className="pt-4 pb-2">
           <pre>pingpox.com</pre>
         </div>
         <p className="font-thin text-xs">
@@ -29,6 +29,7 @@ const Footer = () => {
           berlangganan kelas latihan dan penyelenggaraan pertandigan/turnamen
           terotomasi
         </p>
+        <p className="font-thin text-xs pt-4">v0.5.0</p>
       </div>
       <div
         id="footer-c"
