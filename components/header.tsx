@@ -97,11 +97,11 @@ const SignInOrSignOutMobile = () => {
         <Button variant="contained">Profile</Button>
       </Link>
       <SignInOrSignOut />
-      <span className="self-center">
+      {/* <span className="self-center">
         <Button variant="contained" onClick={signOut}>
           Sign Out
         </Button>
-      </span>
+      </span> */}
     </div>
   );
 };
