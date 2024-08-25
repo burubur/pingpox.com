@@ -1,13 +1,13 @@
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
-import { Button, Divider, Box, menuItemClasses } from "@mui/material";
-import { useSession, signIn, signOut } from "next-auth/react";
+import { redirect, usePathname } from "next/navigation";
+import { useSession, signOut } from "next-auth/react";
 import {
-  Typography,
+  Button,
+  Divider,
   Avatar,
   Paper,
   Menu,
@@ -21,38 +21,47 @@ import {
 import {
   AccountCircleRounded,
   LogoutRounded,
-  PersonAdd,
-  Settings,
   Logout,
 } from "@mui/icons-material";
-import { usePathname } from "next/navigation";
+import Router from "next/router";
 
 const ProfileMenu: React.FC<{ signOut: () => void }> = ({ signOut }) => {
-  return (
-    <Paper sx={{ width: 180, maxWidth: "100%" }}>
-      <MenuList>
-        <MenuItem>
-          <ListItemIcon>
-            <AccountCircleRounded fontSize="small" />
-          </ListItemIcon>
-          <ListItemText>Profile</ListItemText>
-        </MenuItem>
-        <Divider />
-        <MenuItem>
-          <ListItemIcon>
-            <LogoutRounded fontSize="small" />
-          </ListItemIcon>
-          <ListItemText onClick={signOut}>Keluar</ListItemText>
-        </MenuItem>
-      </MenuList>
-    </Paper>
-  );
+  return <div></div>;
 };
 
 const SignInOrSignOut = () => {
+  // tracke the html element as menu's anchor
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+
+  // handle user profile component's click event
+  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+    if (anchorEl == null) {
+      console.log("anchored element is null");
+      setAnchorEl(event.currentTarget);
+    } else {
+      console.log("anchored element is not null");
+      setAnchorEl(null);
+    }
+  };
+
+  // toggle off the menu by un-anchoring the element
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleMenuItemClick = (path: string) => {
+    handleClose();
+    // router.push(path);
+  };
+
+  const handleLogout = () => {
+    handleClose();
+    signOut();
+  };
+
   const { data: session } = useSession();
   const avatarImageURL = session?.user?.image || "";
-  const open = false;
   if (!session) {
     return (
       <Link
@@ -64,16 +73,71 @@ const SignInOrSignOut = () => {
     );
   } else {
     return (
-      <Tooltip title="Akun">
-        <IconButton
-          size="small"
-          aria-controls={open ? "account-menu" : undefined}
-          aria-haspopup="true"
-          aria-expanded={open ? "true" : undefined}
+      <div>
+        <Tooltip title="Akun">
+          <IconButton
+            onClick={handleClick}
+            size="small"
+            sx={{ ml: 2 }}
+            aria-controls={open ? "account-menu" : undefined}
+            aria-haspopup="true"
+            aria-expanded={open ? "true" : undefined}
+          >
+            <Avatar src={avatarImageURL} alt="user" />
+          </IconButton>
+        </Tooltip>
+
+        <Menu
+          anchorEl={anchorEl}
+          id="account-menu"
+          open={open}
+          onClose={handleClose}
+          onClick={handleClose}
+          PaperProps={{
+            elevation: 0,
+            sx: {
+              overflow: "visible",
+              filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
+              mt: 1.5,
+              "& .MuiAvatar-root": {
+                width: 32,
+                height: 32,
+                ml: -0.5,
+                mr: 1,
+              },
+              "&::before": {
+                content: '""',
+                display: "block",
+                position: "absolute",
+                top: 0,
+                right: 14,
+                width: 10,
+                height: 10,
+                bgcolor: "background.paper",
+                transform: "translateY(-50%) rotate(45deg)",
+                zIndex: 0,
+              },
+            },
+          }}
+          transformOrigin={{ horizontal: "right", vertical: "top" }}
+          anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
         >
-          <Avatar src={avatarImageURL} alt="user" />
-        </IconButton>
-      </Tooltip>
+          <MenuItem onClick={handleClose}>
+            <Avatar /> My account
+          </MenuItem>
+          <Divider />
+          <MenuItem
+            onClick={() => {
+              handleLogout();
+            }}
+          >
+            <ListItemIcon>
+              <Logout fontSize="small" />
+            </ListItemIcon>
+            Logout
+          </MenuItem>
+        </Menu>
+      </div>
     );
   }
 };
@@ -267,7 +331,6 @@ const Header: React.FC = () => {
           </div>
         )}
       </div>
-      <ProfileMenu signOut={signOut} />
     </div>
   );
 };
