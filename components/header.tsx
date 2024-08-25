@@ -27,7 +27,7 @@ import {
 } from "@mui/icons-material";
 import { usePathname } from "next/navigation";
 
-const ProfileMenu: React.FC<{signOut: () => void}> = ({ signOut }) => {
+const ProfileMenu: React.FC<{ signOut: () => void }> = ({ signOut }) => {
   return (
     <Paper sx={{ width: 180, maxWidth: "100%" }}>
       <MenuList>
@@ -128,7 +128,12 @@ const CMenu: React.FC<TypeMenu> = ({ urlText, urlLink, isActive }) => {
   );
 };
 
-const CMenuMobile: React.FC<TypeMenu> = ({ urlText, urlLink, isActive, onClick }) => {
+const CMenuMobile: React.FC<TypeMenu> = ({
+  urlText,
+  urlLink,
+  isActive,
+  onClick,
+}) => {
   var className =
     "block p-2 border-b-4 hover:border-b-4 hover:border-pink-500 text-center";
   if (isActive) {
@@ -138,7 +143,14 @@ const CMenuMobile: React.FC<TypeMenu> = ({ urlText, urlLink, isActive, onClick }
   }
 
   return (
-    <Link key={urlLink} href={urlLink} className={className} onClick={onClick}>
+    <Link
+      key={urlLink}
+      href={urlLink}
+      className={className}
+      onClick={() => {
+        return onClick;
+      }}
+    >
       {urlText}
     </Link>
   );
