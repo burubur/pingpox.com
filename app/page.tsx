@@ -1,21 +1,17 @@
 "use client";
 
-import Image from "next/image";
 import "@fontsource/roboto/300.css";
 import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
-import { Divider } from "@mui/material";
+
+import { SessionProvider } from "next-auth/react";
+import { useSession } from "next-auth/react";
+
 import Location from "../components/location";
 import Introduction from "../components/introduction";
-import { SessionProvider } from "next-auth/react";
-import { AppProps } from "next/app";
-import { ThemeProvider, CssBaseline } from "@mui/material";
-import { User, getServerSession } from "next-auth";
-import { Button, Typography } from "@mui/material";
-import { useSession, signIn, signOut } from "next-auth/react";
 
-const Home = ({ Component, pageProps }: AppProps) => {
+const Home = () => {
   const { data: session } = useSession();
   console.log("fetching session data");
   console.log(session);
