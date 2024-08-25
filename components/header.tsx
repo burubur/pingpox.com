@@ -27,7 +27,7 @@ import {
 } from "@mui/icons-material";
 import { usePathname } from "next/navigation";
 
-const ProfileMenu = ({ signOut }) => {
+const ProfileMenu: React.FC<{signOut: () => void}> = ({ signOut }) => {
   return (
     <Paper sx={{ width: 180, maxWidth: "100%" }}>
       <MenuList>
