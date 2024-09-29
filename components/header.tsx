@@ -37,10 +37,8 @@ const SignInOrSignOut = () => {
   // handle user profile component's click event
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     if (anchorEl == null) {
-      console.log("anchored element is null");
       setAnchorEl(event.currentTarget);
     } else {
-      console.log("anchored element is not null");
       setAnchorEl(null);
     }
   };
@@ -124,6 +122,12 @@ const SignInOrSignOut = () => {
         >
           <MenuItem onClick={handleClose}>
             <Avatar /> My account
+          </MenuItem>
+          <MenuItem> 
+            User Mode
+          </MenuItem>
+          <MenuItem> 
+            Coach Mode
           </MenuItem>
           <Divider />
           <MenuItem
@@ -278,6 +282,7 @@ const Header: React.FC = () => {
                 width={80}
                 height={80}
                 className="p-2"
+                loading="lazy"
               />
               <span className="ml-2 font-semibold">pingpox.com</span>
             </Link>

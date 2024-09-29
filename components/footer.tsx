@@ -18,6 +18,7 @@ const Footer = () => {
             alt="Pingpox Home"
             width={60}
             height={60}
+            loading="lazy"
           />
         </div>
         <div className="pt-4 pb-2">
