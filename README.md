@@ -24,6 +24,8 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 ## How to Contribute
 
+Commit the changes and give it a contextual commit message, test it by yourself, make sure that your changes will not break anything then merge to main branch and push to the repository. If something unintended happen due to your changes, please help to resolve it.
+
 We are fully utilizing the power of AI to help expediting design, coding and even for deployment. Please keep in mind that AI is not a Software Engineer's enemy but helper. So feel free to exploite AI's power.
 
 ## Resources
