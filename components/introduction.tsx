@@ -19,6 +19,7 @@ const Introduction = () => {
               height={400}
               alt="image"
               src="/teaching-1.png"
+              loading="lazy"
             ></Image>
             <div className="p-4 flex flex-col group border border-transparent rounded-lg hover:border-pink-300 space-y-4">
               <h1 className="text-3xl text-center md:text-left">
@@ -50,6 +51,7 @@ const Introduction = () => {
               height={400}
               alt="image"
               src="/sparing-2.png"
+              loading="lazy"
             ></Image>
             <div className="p-4 flex flex-col group border border-transparent rounded-lg hover:border-pink-300">
               <h1 className="text-3xl text-center md:text-left mb-4">
@@ -81,6 +83,7 @@ const Introduction = () => {
               height={400}
               alt="image"
               src="/court-5.png"
+              loading="lazy"
             ></Image>
             <div className="p-4 flex flex-col group border border-transparent rounded-lg hover:border-pink-300 space-y-4">
               <h1 className="text-2xl text-center md:text-left">

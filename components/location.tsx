@@ -1,10 +1,8 @@
-"use client"
+"use client";
 
 import Image from "next/image";
 import { Divider, Avatar } from "@mui/material";
-import { useTheme, useMediaQuery } from '@mui/material';
-
-
+import { useTheme, useMediaQuery } from "@mui/material";
 
 interface CircleImageProps {
   src: string;
@@ -13,10 +11,10 @@ interface CircleImageProps {
 
 const CircleImage: React.FC<CircleImageProps> = ({ src, alt }) => {
   const theme = useTheme();
-  
-  const isXS = useMediaQuery(theme.breakpoints.only('xs'));
-  const isSM = useMediaQuery(theme.breakpoints.only('sm'));
-  const isLG = useMediaQuery(theme.breakpoints.up('lg'));
+
+  const isXS = useMediaQuery(theme.breakpoints.only("xs"));
+  const isSM = useMediaQuery(theme.breakpoints.only("sm"));
+  const isLG = useMediaQuery(theme.breakpoints.up("lg"));
 
   const getSize = () => {
     if (isXS) return 200;
@@ -29,7 +27,14 @@ const CircleImage: React.FC<CircleImageProps> = ({ src, alt }) => {
 
   return (
     <Avatar sx={{ width: size, height: size }}>
-      <Image src={src} alt={alt} layout="fill" objectFit="cover" />
+      <Image
+        src={src}
+        alt={alt}
+        layout="fill"
+        // objectFit="cover"
+        loading="lazy"
+        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+      />
     </Avatar>
   );
 };
@@ -53,7 +58,7 @@ const Location = () => {
           </a>
         </div>
         <div className="flex flex-col items-center">
-        <CircleImage src="/court-3.png" alt="image" />
+          <CircleImage src="/court-3.png" alt="image" />
           <a
             href="https://maps.app.goo.gl/6r7ekeYk4gMSR7qt7"
             target="_blank"
@@ -63,7 +68,7 @@ const Location = () => {
           </a>
         </div>
         <div className="flex flex-col items-center">
-        <CircleImage src="/court-4.png" alt="image" />
+          <CircleImage src="/court-4.png" alt="image" />
           <a
             href="https://maps.app.goo.gl/UpoeqM2ET6axPvKT8"
             target="_blank"
