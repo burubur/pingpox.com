@@ -1,0 +1,219 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model identity {
+  id           String  @id @unique @default(uuid()) // Auto-generated UUID
+  email        String  @unique
+  name         String
+  image        String?
+  phone_number String?
+  address      String
+
+  created_at DateTime
+  updated_at DateTime?
+  deleted_at DateTime?
+
+  @@index([created_at, updated_at, deleted_at])
+}
+
+model superadmin {
+  id      String @id @unique
+  enabled Int
+
+  created_at DateTime
+  updated_at DateTime?
+  deleted_at DateTime?
+
+  @@index([created_at, updated_at, deleted_at])
+}
+
+model user {
+  id String @id @unique // reference_key: identity_id
+
+  created_at DateTime
+  updated_at DateTime?
+  deleted_at DateTime?
+
+  @@index([created_at, updated_at, deleted_at])
+}
+
+model partner {
+  id     String @id @unique // reference_key: identity_id
+  status String // registered, active, paused, break, suspended, reactivated, inactive
+
+  created_at         DateTime
+  updated_at         DateTime?
+  deleted_at         DateTime?
+  partner_leave_plan partner_leave_plan[]
+  partner_work_hour  partner_work_hour[]
+
+  @@index([status])
+  @@index([created_at, updated_at, deleted_at])
+}
+
+model provider {
+  id     String  @id @unique @default(uuid()) // auto-generated UUID
+  name   String
+  venue  venue[]
+  status String
+
+  created_at DateTime
+  updated_at DateTime?
+  deleted_at DateTime?
+
+  @@index([created_at, updated_at, deleted_at])
+}
+
+model venue {
+  id          String    @id @unique @default(uuid())
+  index       Int
+  name        String
+  address     String
+  location    String // [lat,long]
+  s2id_7      Int
+  s2id_12     Int
+  image       String
+  courts      court[]
+  provider    provider? @relation(fields: [provider_id], references: [id])
+  provider_id String?
+
+  created_at DateTime
+  updated_at DateTime?
+  deleted_at DateTime?
+
+  @@index([created_at, updated_at, deleted_at])
+}
+
+model court {
+  id       String  @id @unique @default(uuid())
+  index    Int
+  name     String
+  image    String
+  venue    venue?  @relation(fields: [venue_id], references: [id])
+  venue_id String?
+
+  created_at DateTime
+  updated_at DateTime?
+  deleted_at DateTime?
+
+  @@index([created_at, updated_at, deleted_at])
+}
+
+// this MUST be refreshed every day for 1 month future date
+model partner_work_hour {
+  id          String   @id @unique
+  partner     partner? @relation(fields: [partner_id], references: [id])
+  partner_id  String
+  day_of_week String // ex: [1-3, 6-7] or [1, 2, 3, 4, 6, 7]
+  hour_of_day String // ex: [8,9,10] = 8 a.m - 10 a.m
+}
+
+model partner_leave_plan {
+  id          String   @id @unique
+  partner     partner? @relation(fields: [partner_id], references: [id])
+  partner_id  String
+  leave_date  DateTime
+  leave_type  String // 'Full Day', 'Partial Day', minimum 1 hour
+  start_time  DateTime // optional if partial leave
+  end_time    DateTime // optional if partial leave
+  description String
+}
+
+model partner_slot {
+  id         String @id @unique
+  partner_id String
+}
+
+model slot {
+  id           String   @id @unique // will be generated regularly for 30 days
+  type         String // offline, online
+  venue_id     String?
+  court_id     String?
+  user_id      String?
+  trainer_id   String
+  assistan_ids String?
+  start_time   DateTime
+  end_time     DateTime
+
+  created_by String // id of user
+  created_at DateTime
+  updated_at DateTime?
+  deleted_at DateTime?
+
+  @@index([created_at, updated_at, deleted_at])
+}
+
+model stream {
+  id           String  @id @unique
+  slot_id      String
+  url          String
+  participants String?
+  password     String
+}
+
+model video {
+  id          String @id @unique
+  private_url String
+  public_url  String
+}
+
+model transaction {
+  id               String @id @unique
+  transaction_type String // order, booking, statuses are derived from this
+  slotId           String
+  userId           String // trainee
+  partnerId        String // trainer
+  status           String // last status of transaction
+
+  created_at DateTime
+  updated_at DateTime?
+
+  @@index([created_at, updated_at])
+}
+
+model transaction_history {
+  id             String @id @unique
+  transaction_id String // order, booking, statuses are derived from this
+  status         String // last status of transaction
+
+  created_at DateTime
+}
+
+model payments {
+  id             String @id @unique
+  transaction_id String
+  total_amount   String
+  status         String // last status of payment: paid, cancelled, aborted
+
+  created_at DateTime
+  updated_at DateTime?
+  deleted_at DateTime?
+
+  @@index([created_at, updated_at, deleted_at])
+}
+
+model review {
+  id             String @id @unique
+  transaction_id String
+  reviewer_id    String
+  summary        String
+  rate           Int
+  description    String
+  reviewer       String
+  status         String // submitted, verified, adjusted, blocked, published
+
+  created_at DateTime
+  updated_at DateTime?
+  deleted_at DateTime?
+
+  @@index([created_at, updated_at, deleted_at])
+}
