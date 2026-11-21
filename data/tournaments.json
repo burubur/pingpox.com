@@ -1,0 +1,266 @@
+{
+  "updated_at": "2026-11-17T21:04:40+07:00",
+  "tournaments": [
+    {
+      "id": "piala-walikota-tebing-tinggi-2026",
+      "name": "Kejuaraan Tenis Meja Piala Wali Kota Tebing Tinggi 2026",
+      "start_date": "2026-11-27",
+      "end_date": "2026-11-29",
+      "city": "Tebing Tinggi",
+      "province": "Sumatera Utara",
+      "venue": "GOR Marah Halim, Jl. MH. Thamrin",
+      "categories": [
+        "Pelajar SD",
+        "Pelajar SMP",
+        "Pelajar SMA",
+        "Divisi 6 se-Sumut"
+      ],
+      "registration_fee": null,
+      "registration_deadline": null,
+      "organizer": "PTMSI Kota Tebing Tinggi",
+      "contact": null,
+      "source_urls": [
+        "https://mistar.id/news/olahraga/wali-kota-tebing-tinggi-dukung-penuh-piala-wali-kota-tenis-meja-2026-digelar-2729-november"
+      ],
+      "date_found": "2026-11-17",
+      "status": "unconfirmed",
+      "notes": "Tanggal berasal dari keterangan Ketua PTMSI Kota Tebing Tinggi dalam berita (5 November 2026). Pelajar bertanding 27–28 November, Divisi 6 pada 29 November. Biaya, batas pendaftaran, dan kontak belum ditemukan; poster resmi belum terlihat."
+    },
+    {
+      "id": "fkptm-bandar-lampung-series-4-2026",
+      "name": "Kejuaraan Series IV FKPTM Bandar Lampung",
+      "start_date": "2026-12-06",
+      "end_date": "2026-12-06",
+      "city": "Bandar Lampung",
+      "province": "Lampung",
+      "venue": "PTM Ganesha Panjang (tuan rumah)",
+      "categories": [],
+      "registration_fee": null,
+      "registration_deadline": null,
+      "organizer": "FKPTM Bandar Lampung (Forum Komunikasi Perkumpulan Tenis Meja)",
+      "contact": null,
+      "source_urls": [
+        "https://gerbangrepublik.com/open-tennis-meja-fkptm-kahf-2026-pringsewu-borong-juara-ganda-atlit-porwanas-lampung-juara-tunggal/16/11/2026/",
+        "https://transsumatera.id/2026/09/05/ketua-fkptm-bandar-lampung-hadiri-milad-ptn-merdeka-ke-3/"
+      ],
+      "date_found": "2026-11-17",
+      "status": "unconfirmed",
+      "notes": "Tanggal berasal dari keterangan pengurus FKPTM dalam berita. Seri sebelumnya mempertandingkan tunggal putra dan ganda putra, tetapi kategori seri ini belum disebutkan. Biaya, batas pendaftaran, dan kontak belum ditemukan."
+    },
+    {
+      "id": "porprov-x-sulteng-2026-tenis-meja",
+      "name": "Porprov X Sulawesi Tengah 2026 - Tenis Meja",
+      "start_date": "2026-12-06",
+      "end_date": "2026-12-15",
+      "city": "Morowali (Bungku)",
+      "province": "Sulawesi Tengah",
+      "venue": "GOR SMAN 1 Bungku",
+      "categories": [],
+      "registration_fee": null,
+      "registration_deadline": null,
+      "organizer": "KONI Sulawesi Tengah / panitia Porprov X",
+      "contact": null,
+      "source_urls": [
+        "https://luwuktimes.id/ini-jadwal-lengkap-dan-lokasi-pertandingan-porprov-x-sulteng-2026-di-morowali/"
+      ],
+      "date_found": "2026-11-17",
+      "status": "unconfirmed",
+      "notes": "Tanggal adalah rentang keseluruhan Porprov (pembukaan 6 Desember, penutupan 15 Desember 2026). Tenis meja berlangsung 8 hari di dalam rentang tersebut, tanggal pastinya belum ditemukan. Hanya untuk atlet kontingen kabupaten/kota, bukan pendaftaran terbuka."
+    },
+    {
+      "id": "porprov-xv-sultra-2026-tenis-meja",
+      "name": "Porprov XV Sulawesi Tenggara 2026 - Tenis Meja",
+      "start_date": "2026-12-06",
+      "end_date": "2026-12-12",
+      "city": "Kendari",
+      "province": "Sulawesi Tenggara",
+      "venue": null,
+      "categories": [],
+      "registration_fee": null,
+      "registration_deadline": null,
+      "organizer": "KONI Sulawesi Tenggara / Dispora Sultra",
+      "contact": null,
+      "source_urls": [
+        "https://haluansultra.id/2026/10/30/porprov-xv-sultra-pertandingkan-45-cabang-olahraga-pembukaan-6-desember-di-eks-mtq-kendari/"
+      ],
+      "date_found": "2026-11-17",
+      "status": "unconfirmed",
+      "notes": "Tanggal adalah rentang keseluruhan Porprov. Tenis meja termasuk 45 cabor yang dipertandingkan; venue dan tanggal pasti belum ditemukan. Hanya untuk atlet kontingen kabupaten/kota, bukan pendaftaran terbuka."
+    },
+    {
+      "id": "ptm-sportivo24-open-2026",
+      "name": "PTM Sportivo24 Open Tournament 2026",
+      "start_date": "2026-12-12",
+      "end_date": "2026-12-13",
+      "city": null,
+      "province": null,
+      "venue": "PTM Sportivo",
+      "categories": [
+        "Single Divisi 5 & 6",
+        "Single Divisi 7, 8, 9 (min. age 30)"
+      ],
+      "registration_fee": "Rp100.000 (admin)",
+      "registration_deadline": null,
+      "organizer": null,
+      "contact": null,
+      "source_urls": [
+        "info komunitas, belum dikonfirmasi"
+      ],
+      "date_found": "2026-11-17",
+      "status": "unconfirmed",
+      "notes": "Informasi dari poster yang beredar di komunitas, belum diverifikasi di kanal publik penyelenggara. Poster menyebut kuota 144 peserta sudah penuh (CLOSE) di semua divisi, sebagian dengan daftar tunggu. Hadiah Divisi 5 & 6: Rp4 juta/2 juta/1 juta; Divisi 7–9: Rp3 juta/1,5 juta/750 ribu. Kota tidak disebutkan."
+    },
+    {
+      "id": "wtt-youth-contender-bali-2027",
+      "name": "WTT Youth Contender Bali 2027",
+      "start_date": "2027-11-15",
+      "end_date": "2027-11-18",
+      "city": null,
+      "province": "Bali",
+      "venue": null,
+      "categories": [
+        "U11",
+        "U13",
+        "U15",
+        "U17",
+        "U19",
+        "Singles",
+        "Doubles",
+        "Mixed Doubles"
+      ],
+      "registration_fee": null,
+      "registration_deadline": null,
+      "organizer": "ITTF / World Table Tennis (host initiative: Indonesia Pingpong League with NOC Indonesia)",
+      "contact": null,
+      "source_urls": [
+        "https://www.ittf.com/2027-events-calendar/",
+        "https://www.ittf.com/2026/10/20/full-2027-calendar-complete-as-feeder-youth-series-and-world-youth-championships-confirmed/",
+        "https://www.antaranews.com/berita/5833955/koi-perkuat-kolaborasi-dengan-ittf-untuk-gelar-wtt-youth-2027-di-bali",
+        "https://x.com/nusabalicom/status/2118564308787536169"
+      ],
+      "date_found": "2026-11-17",
+      "status": "confirmed",
+      "notes": "Turnamen internasional kelompok umur; pendaftaran melalui asosiasi nasional. Kota, venue, biaya, dan batas pendaftaran belum diumumkan. ITTF menyatakan kalender dapat berubah."
+    },
+    {
+      "id": "wtt-youth-star-contender-bali-2027",
+      "name": "WTT Youth Star Contender Bali 2027",
+      "start_date": "2027-11-19",
+      "end_date": "2027-11-21",
+      "city": null,
+      "province": "Bali",
+      "venue": null,
+      "categories": [
+        "U11",
+        "U13",
+        "U15",
+        "U17",
+        "U19",
+        "Singles",
+        "Doubles",
+        "Mixed Doubles"
+      ],
+      "registration_fee": null,
+      "registration_deadline": null,
+      "organizer": "ITTF / World Table Tennis (host initiative: Indonesia Pingpong League with NOC Indonesia)",
+      "contact": null,
+      "source_urls": [
+        "https://www.ittf.com/2027-events-calendar/",
+        "https://www.ittf.com/2026/10/20/full-2027-calendar-complete-as-feeder-youth-series-and-world-youth-championships-confirmed/",
+        "https://sport.detik.com/sport-lain/d-8739621/indonesia-tuan-rumah-kejuaraan-tenis-meja-remaja-dunia-2027"
+      ],
+      "date_found": "2026-11-17",
+      "status": "confirmed",
+      "notes": "Turnamen internasional kelompok umur; pendaftaran melalui asosiasi nasional. Kota, venue, biaya, dan batas pendaftaran belum diumumkan."
+    },
+    {
+      "id": "ipl-liga-tenis-meja-elite-2027",
+      "name": "Indonesia Pingpong League (IPL) Liga Tenis Meja Elite 2027",
+      "start_date": null,
+      "end_date": null,
+      "city": null,
+      "province": null,
+      "venue": null,
+      "categories": [
+        "Klub (10 klub)"
+      ],
+      "registration_fee": null,
+      "registration_deadline": null,
+      "organizer": "Indonesia Pingpong League (IPL)",
+      "contact": null,
+      "source_urls": [
+        "https://www.antaranews.com/berita/5837935/ipl-siapkan-liga-tenis-meja-elite-bergulir-mulai-2027",
+        "https://x.com/elshinta_tegal/status/2119011980891840947"
+      ],
+      "date_found": "2026-11-17",
+      "status": "unconfirmed",
+      "notes": "Berupa musim liga (sekitar 10 event sepanjang 2027 dengan tuan rumah bergiliran antarklub), bukan satu turnamen. Jadwal belum diumumkan; halaman jadwal IPL tidak dapat diakses saat pengecekan."
+    },
+    {
+      "id": "fkptm-bandar-lampung-series-5-2027",
+      "name": "Kejuaraan Series V FKPTM Bandar Lampung",
+      "start_date": null,
+      "end_date": null,
+      "city": "Bandar Lampung",
+      "province": "Lampung",
+      "venue": "PTM Merdeka, Kec. Langkapura (tuan rumah)",
+      "categories": [],
+      "registration_fee": null,
+      "registration_deadline": null,
+      "organizer": "FKPTM Bandar Lampung",
+      "contact": null,
+      "source_urls": [
+        "https://gerbangrepublik.com/open-tennis-meja-fkptm-kahf-2026-pringsewu-borong-juara-ganda-atlit-porwanas-lampung-juara-tunggal/16/11/2026/"
+      ],
+      "date_found": "2026-11-17",
+      "status": "unconfirmed",
+      "notes": "Hanya disebutkan 'Februari 2027'; tanggal pasti belum ditemukan. Seri VI direncanakan April 2027 dengan tuan rumah PTM Cendana."
+    },
+    {
+      "id": "liga-tenis-meja-palembang-2026-edisi-4",
+      "name": "Liga Tenis Meja Palembang (LTMP) 2026 Edisi IV - Grand Final",
+      "start_date": null,
+      "end_date": null,
+      "city": "Palembang",
+      "province": "Sumatera Selatan",
+      "venue": "PTM Pusri",
+      "categories": [
+        "Beregu KU-25 (tunggal-ganda-tunggal)",
+        "Beregu 26+ (ganda-ganda-ganda)"
+      ],
+      "registration_fee": null,
+      "registration_deadline": null,
+      "organizer": "Pengkot PTMSI Palembang",
+      "contact": null,
+      "source_urls": [
+        "https://oganilir.disway.id/olahraga/read/37878/liga-tenis-meja-palembang-bergulir-2026-pitstop-tuan-rumah-edisi-perdana"
+      ],
+      "date_found": "2026-11-17",
+      "status": "unconfirmed",
+      "notes": "Hanya diketahui 'Desember 2026' dari pengumuman musim pada April 2026; tanggal pasti belum ditemukan. Peserta adalah tim klub se-Sumatera Selatan. Kontak pendaftaran tercantum di artikel sumber."
+    },
+    {
+      "id": "waja-cup",
+      "name": "Waja Cup (turnamen tenis meja)",
+      "start_date": null,
+      "end_date": null,
+      "city": null,
+      "province": null,
+      "venue": null,
+      "categories": [
+        "Umum/terbuka (daftar 132 peserta, sudah ditutup)",
+        "SD"
+      ],
+      "registration_fee": null,
+      "registration_deadline": null,
+      "organizer": null,
+      "contact": null,
+      "source_urls": [
+        "info komunitas, belum dikonfirmasi"
+      ],
+      "date_found": "2026-11-17",
+      "status": "unconfirmed",
+      "notes": "Hanya daftar peserta yang terlihat (diunggah 17 November 2026). Daftar kategori umum sudah ditutup; kategori SD tersisa 1 slot. Tanggal, venue, biaya, dan penyelenggara tidak disebutkan. Kemungkinan di wilayah Sukabumi, Jawa Barat, tetapi belum terverifikasi."
+    }
+  ]
+}
