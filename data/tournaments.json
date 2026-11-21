@@ -1,6 +1,56 @@
 {
-  "updated_at": "2026-11-17T21:04:40+07:00",
+  "updated_at": "2026-11-21T00:03:20+07:00",
   "tournaments": [
+    {
+      "id": "porprov-viii-kaltim-2026-tenis-meja",
+      "name": "Porprov VIII Kalimantan Timur 2026 - Tenis Meja",
+      "start_date": "2026-11-18",
+      "end_date": "2026-11-22",
+      "city": "Tanah Grogot (Paser)",
+      "province": "Kalimantan Timur",
+      "venue": "GOR Tenis Meja, Kompleks Stadion Sadurengas, Tanah Grogot",
+      "categories": [],
+      "registration_fee": null,
+      "registration_deadline": null,
+      "organizer": "KONI Kalimantan Timur / PTMSI Kaltim / panitia Porprov VIII",
+      "contact": null,
+      "source_urls": [
+        "https://kaltimedia.com/2026/11/19/tenis-meja-porprov-kaltim-jadi-tiket-menuju-pon-2028/",
+        "https://mediacenter.paserkab.go.id/berita/buka-tenis-meja-porprov-kaltim-ke-8-bupati-paser-ajang-ini-seleksi-atlet-menuju-pon-2028",
+        "https://kaltimpost.jawapos.com/olahraga-daerah/2611190115/tenis-meja-balikpapan-raih-dua-perunggu-di-porprov-kaltim-2026-masih-bidik-tiga-medali-emas"
+      ],
+      "date_found": "2026-11-21",
+      "status": "confirmed",
+      "notes": "Sudah berlangsung: dibuka 18 November 2026, berakhir 22 November 2026. Diikuti 57 atlet (30 putra, 27 putri) dari 8 kabupaten/kota; Berau dan Mahakam Ulu tidak mengirim atlet. Berita 19 November menyinggung nomor beregu putra dan putri plus nomor lanjutan, tetapi daftar kategori lengkap belum ditemukan. Hanya untuk atlet kontingen kabupaten/kota, bukan pendaftaran terbuka."
+    },
+    {
+      "id": "ostrich-cup-1-2026",
+      "name": "Ostrich Cup 1 2026",
+      "start_date": "2026-11-21",
+      "end_date": "2026-11-22",
+      "city": "Subang",
+      "province": "Jawa Barat",
+      "venue": "Pingpong Center Ostrich Mini Zoo Subang",
+      "categories": [
+        "U-12 Putra (tingkat Jawa Barat)",
+        "U-12 Putri (tingkat Jawa Barat)",
+        "U-15 Putra (tingkat Jawa Barat)",
+        "U-15 Putri (tingkat Jawa Barat)",
+        "Divisi 8 se-Kabupaten Subang",
+        "Divisi 9 se-Kabupaten Subang",
+        "Divisi 10 se-Kabupaten Subang"
+      ],
+      "registration_fee": "U-12 & U-15: Rp40.000; Divisi 8, 9, 10: Rp20.000",
+      "registration_deadline": null,
+      "organizer": "Ostrich Mini Zoo dan Kafe Subang bersama PTM Melati (dukungan PTMSI Kabupaten Subang, PTMSI Jawa Barat, dan FPMSI)",
+      "contact": "pendaftaran U-12/U-15: https://bit.ly/ostrichcup1",
+      "source_urls": [
+        "https://www.lampusatu.com/olahraga/ostrich-cup-1-2026-siap-digelar-hadiahkan-total-penghargaan-jutaan-rupiah-dan-jadi-panggung-atlet-tenis-meja-jawa-barat/"
+      ],
+      "date_found": "2026-11-21",
+      "status": "unconfirmed",
+      "notes": "Preview berita 20 November 2026 untuk pelaksanaan 21–22 November 2026. Batas pendaftaran tidak disebutkan. Divisi 8–10 khusus se-Kabupaten Subang; U-12 dan U-15 tingkat Jawa Barat. Poster resmi PTMSI belum terlihat; hasil pertandingan belum dipublikasikan pada saat pencatatan."
+    },
     {
       "id": "piala-walikota-tebing-tinggi-2026",
       "name": "Kejuaraan Tenis Meja Piala Wali Kota Tebing Tinggi 2026",
@@ -20,7 +70,9 @@
       "organizer": "PTMSI Kota Tebing Tinggi",
       "contact": null,
       "source_urls": [
-        "https://mistar.id/news/olahraga/wali-kota-tebing-tinggi-dukung-penuh-piala-wali-kota-tenis-meja-2026-digelar-2729-november"
+        "https://mistar.id/news/olahraga/wali-kota-tebing-tinggi-dukung-penuh-piala-wali-kota-tenis-meja-2026-digelar-2729-november",
+        "https://fokustebingtinggi.com/wali-kota-tebing-tinggi-dukung-gelaran-kejuaraan-tenis-meja-2026/",
+        "https://infojurnalis.com/kejuaraan-tenis-meja-tebing-tinggi-siap-rebut-pia/"
       ],
       "date_found": "2026-11-17",
       "status": "unconfirmed",
@@ -48,26 +100,6 @@
       "notes": "Tanggal berasal dari keterangan pengurus FKPTM dalam berita. Seri sebelumnya mempertandingkan tunggal putra dan ganda putra, tetapi kategori seri ini belum disebutkan. Biaya, batas pendaftaran, dan kontak belum ditemukan."
     },
     {
-      "id": "porprov-x-sulteng-2026-tenis-meja",
-      "name": "Porprov X Sulawesi Tengah 2026 - Tenis Meja",
-      "start_date": "2026-12-06",
-      "end_date": "2026-12-15",
-      "city": "Morowali (Bungku)",
-      "province": "Sulawesi Tengah",
-      "venue": "GOR SMAN 1 Bungku",
-      "categories": [],
-      "registration_fee": null,
-      "registration_deadline": null,
-      "organizer": "KONI Sulawesi Tengah / panitia Porprov X",
-      "contact": null,
-      "source_urls": [
-        "https://luwuktimes.id/ini-jadwal-lengkap-dan-lokasi-pertandingan-porprov-x-sulteng-2026-di-morowali/"
-      ],
-      "date_found": "2026-11-17",
-      "status": "unconfirmed",
-      "notes": "Tanggal adalah rentang keseluruhan Porprov (pembukaan 6 Desember, penutupan 15 Desember 2026). Tenis meja berlangsung 8 hari di dalam rentang tersebut, tanggal pastinya belum ditemukan. Hanya untuk atlet kontingen kabupaten/kota, bukan pendaftaran terbuka."
-    },
-    {
       "id": "porprov-xv-sultra-2026-tenis-meja",
       "name": "Porprov XV Sulawesi Tenggara 2026 - Tenis Meja",
       "start_date": "2026-12-06",
@@ -86,6 +118,26 @@
       "date_found": "2026-11-17",
       "status": "unconfirmed",
       "notes": "Tanggal adalah rentang keseluruhan Porprov. Tenis meja termasuk 45 cabor yang dipertandingkan; venue dan tanggal pasti belum ditemukan. Hanya untuk atlet kontingen kabupaten/kota, bukan pendaftaran terbuka."
+    },
+    {
+      "id": "porprov-x-sulteng-2026-tenis-meja",
+      "name": "Porprov X Sulawesi Tengah 2026 - Tenis Meja",
+      "start_date": "2026-12-06",
+      "end_date": "2026-12-15",
+      "city": "Morowali (Bungku)",
+      "province": "Sulawesi Tengah",
+      "venue": "GOR SMAN 1 Bungku",
+      "categories": [],
+      "registration_fee": null,
+      "registration_deadline": null,
+      "organizer": "KONI Sulawesi Tengah / panitia Porprov X",
+      "contact": null,
+      "source_urls": [
+        "https://luwuktimes.id/ini-jadwal-lengkap-dan-lokasi-pertandingan-porprov-x-sulteng-2026-di-morowali/"
+      ],
+      "date_found": "2026-11-17",
+      "status": "unconfirmed",
+      "notes": "Tanggal adalah rentang keseluruhan Porprov (pembukaan 6 Desember, penutupan 15 Desember 2026). Tenis meja berlangsung 8 hari di dalam rentang tersebut, tanggal pastinya belum ditemukan. Hanya untuk atlet kontingen kabupaten/kota, bukan pendaftaran terbuka."
     },
     {
       "id": "ptm-sportivo24-open-2026",
@@ -108,7 +160,7 @@
       ],
       "date_found": "2026-11-17",
       "status": "unconfirmed",
-      "notes": "Informasi dari poster yang beredar di komunitas, belum diverifikasi di kanal publik penyelenggara. Poster menyebut kuota 144 peserta sudah penuh (CLOSE) di semua divisi, sebagian dengan daftar tunggu. Hadiah Divisi 5 & 6: Rp4 juta/2 juta/1 juta; Divisi 7–9: Rp3 juta/1,5 juta/750 ribu. Kota tidak disebutkan."
+      "notes": "Informasi dari poster yang beredar di komunitas, belum diverifikasi di kanal publik penyelenggara. Poster (diedarkan ulang 19 November 2026) masih menyebut kuota 144 peserta sudah penuh (CLOSE) di semua divisi, sebagian dengan daftar tunggu. Syarat: Divisi 7, 8, 9 minimal usia 30 tahun; Divisi 5 & 6 tanpa batasan usia. Hadiah Divisi 5 & 6: Rp4 juta/2 juta/1 juta; Divisi 7–9: Rp3 juta/1,5 juta/750 ribu. Biaya admin Rp100.000. Kota tidak disebutkan di poster; tidak ditemukan konfirmasi publik yang memastikan lokasi event ini."
     },
     {
       "id": "wtt-youth-contender-bali-2027",
@@ -237,7 +289,7 @@
       ],
       "date_found": "2026-11-17",
       "status": "unconfirmed",
-      "notes": "Hanya diketahui 'Desember 2026' dari pengumuman musim pada April 2026; tanggal pasti belum ditemukan. Peserta adalah tim klub se-Sumatera Selatan. Kontak pendaftaran tercantum di artikel sumber."
+      "notes": "Hanya diketahui 'Desember 2026' dari pengumuman musim pada April 2026; tanggal pasti belum ditemukan. Peserta adalah tim klub se-Sumatera Selatan (satu kabupaten/kota satu tim per kelompok umur). Kontak pendaftaran tercantum di artikel sumber April 2026."
     },
     {
       "id": "waja-cup",
