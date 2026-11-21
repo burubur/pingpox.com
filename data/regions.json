@@ -1,0 +1,288 @@
+{
+  "provinces": [
+    {
+      "name": "Aceh",
+      "cities": [
+        {
+          "name": "Banda Aceh",
+          "districts": [
+            {
+              "name": "Syiah Kuala",
+              "subdistricts": [
+                { "name": "Kopelma Darussalam", "postalCodes": ["23111"] }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Sumatera Utara",
+      "cities": [
+        {
+          "name": "Medan",
+          "districts": [
+            {
+              "name": "Medan Baru",
+              "subdistricts": [
+                { "name": "Padang Bulan", "postalCodes": ["20154"] }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Sumatera Barat",
+      "cities": [
+        {
+          "name": "Padang",
+          "districts": [
+            {
+              "name": "Padang Barat",
+              "subdistricts": [
+                { "name": "Belakang Tangsi", "postalCodes": ["25118"] }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Sumatera Selatan",
+      "cities": [
+        {
+          "name": "Palembang",
+          "districts": [
+            {
+              "name": "Ilir Timur I",
+              "subdistricts": [
+                { "name": "18 Ilir", "postalCodes": ["30121"] }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "DKI Jakarta",
+      "cities": [
+        {
+          "name": "Jakarta Selatan",
+          "districts": [
+            {
+              "name": "Kebayoran Baru",
+              "subdistricts": [
+                { "name": "Senayan", "postalCodes": ["12190"] }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Jakarta Pusat",
+          "districts": [
+            {
+              "name": "Menteng",
+              "subdistricts": [
+                { "name": "Menteng", "postalCodes": ["10310"] }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Jawa Barat",
+      "cities": [
+        {
+          "name": "Kota Bandung",
+          "districts": [
+            {
+              "name": "Coblong",
+              "subdistricts": [
+                { "name": "Dago", "postalCodes": ["40135"] }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Kota Bekasi",
+          "districts": [
+            {
+              "name": "Bekasi Selatan",
+              "subdistricts": [
+                { "name": "Jakasampurna", "postalCodes": ["17145"] }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Kota Depok",
+          "districts": [
+            {
+              "name": "Beji",
+              "subdistricts": [
+                { "name": "Beji", "postalCodes": ["16421"] }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Kota Bogor",
+          "districts": [
+            {
+              "name": "Bogor Tengah",
+              "subdistricts": [
+                { "name": "Pabaton", "postalCodes": ["16121"] }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Jawa Tengah",
+      "cities": [
+        {
+          "name": "Kota Semarang",
+          "districts": [
+            {
+              "name": "Candisari",
+              "subdistricts": [
+                { "name": "Jatingaleh", "postalCodes": ["50254"] }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Surakarta",
+          "districts": [
+            {
+              "name": "Laweyan",
+              "subdistricts": [
+                { "name": "Penumping", "postalCodes": ["57141"] }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "DI Yogyakarta",
+      "cities": [
+        {
+          "name": "Kota Yogyakarta",
+          "districts": [
+            {
+              "name": "Gondokusuman",
+              "subdistricts": [
+                { "name": "Terban", "postalCodes": ["55223"] }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Jawa Timur",
+      "cities": [
+        {
+          "name": "Surabaya",
+          "districts": [
+            {
+              "name": "Gubeng",
+              "subdistricts": [
+                { "name": "Airlangga", "postalCodes": ["60286"] }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Kota Malang",
+          "districts": [
+            {
+              "name": "Klojen",
+              "subdistricts": [
+                { "name": "Klojen", "postalCodes": ["65111"] }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Banten",
+      "cities": [
+        {
+          "name": "Kota Tangerang",
+          "districts": [
+            {
+              "name": "Cipondoh",
+              "subdistricts": [
+                { "name": "Cipondoh", "postalCodes": ["15148"] }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Bali",
+      "cities": [
+        {
+          "name": "Denpasar",
+          "districts": [
+            {
+              "name": "Denpasar Selatan",
+              "subdistricts": [
+                { "name": "Sanur", "postalCodes": ["80228"] }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Sulawesi Selatan",
+      "cities": [
+        {
+          "name": "Makassar",
+          "districts": [
+            {
+              "name": "Panakkukang",
+              "subdistricts": [
+                { "name": "Karampuang", "postalCodes": ["90231"] }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    { "name": "Riau", "cities": [{ "name": "Pekanbaru", "districts": [] }] },
+    { "name": "Jambi", "cities": [{ "name": "Jambi", "districts": [] }] },
+    { "name": "Bengkulu", "cities": [{ "name": "Bengkulu", "districts": [] }] },
+    { "name": "Lampung", "cities": [{ "name": "Bandar Lampung", "districts": [] }] },
+    { "name": "Kepulauan Bangka Belitung", "cities": [{ "name": "Pangkalpinang", "districts": [] }] },
+    { "name": "Kepulauan Riau", "cities": [{ "name": "Batam", "districts": [] }] },
+    { "name": "Kalimantan Barat", "cities": [{ "name": "Pontianak", "districts": [] }] },
+    { "name": "Kalimantan Tengah", "cities": [{ "name": "Palangka Raya", "districts": [] }] },
+    { "name": "Kalimantan Selatan", "cities": [{ "name": "Banjarmasin", "districts": [] }] },
+    { "name": "Kalimantan Timur", "cities": [{ "name": "Samarinda", "districts": [] }] },
+    { "name": "Kalimantan Utara", "cities": [{ "name": "Tanjung Selor", "districts": [] }] },
+    { "name": "Sulawesi Utara", "cities": [{ "name": "Manado", "districts": [] }] },
+    { "name": "Sulawesi Tengah", "cities": [{ "name": "Palu", "districts": [] }] },
+    { "name": "Sulawesi Tenggara", "cities": [{ "name": "Kendari", "districts": [] }] },
+    { "name": "Gorontalo", "cities": [{ "name": "Gorontalo", "districts": [] }] },
+    { "name": "Sulawesi Barat", "cities": [{ "name": "Mamuju", "districts": [] }] },
+    { "name": "Maluku", "cities": [{ "name": "Ambon", "districts": [] }] },
+    { "name": "Maluku Utara", "cities": [{ "name": "Ternate", "districts": [] }] },
+    { "name": "Papua", "cities": [{ "name": "Jayapura", "districts": [] }] },
+    { "name": "Papua Barat", "cities": [{ "name": "Manokwari", "districts": [] }] },
+    { "name": "Papua Selatan", "cities": [{ "name": "Merauke", "districts": [] }] },
+    { "name": "Papua Tengah", "cities": [{ "name": "Nabire", "districts": [] }] },
+    { "name": "Papua Pegunungan", "cities": [{ "name": "Wamena", "districts": [] }] },
+    { "name": "Papua Barat Daya", "cities": [{ "name": "Sorong", "districts": [] }] },
+    { "name": "Nusa Tenggara Barat", "cities": [{ "name": "Mataram", "districts": [] }] },
+    { "name": "Nusa Tenggara Timur", "cities": [{ "name": "Kupang", "districts": [] }] }
+  ]
+}

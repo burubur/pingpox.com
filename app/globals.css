@@ -44,6 +44,7 @@ button{font:inherit}
 /* ---------- sub bar ---------- */
 .subbar{background:var(--night-2);color:#fff;border-bottom:1px solid var(--line-d)}
 .subbar .wrap{display:flex;flex-wrap:wrap;align-items:center;gap:12px 18px;padding-top:12px;padding-bottom:12px}
+.subbar .actions{margin-left:auto}
 .subbar h1{margin:0;font-family:var(--cond);font-weight:800;font-size:26px;letter-spacing:.04em;text-transform:uppercase;line-height:1}
 .seg{display:inline-flex;background:rgba(255,255,255,.08);border-radius:999px;padding:3px}
 .seg button{border:0;background:transparent;color:#d7dae2;font-family:var(--cond);font-weight:700;font-size:14px;letter-spacing:.08em;text-transform:uppercase;padding:7px 16px;border-radius:999px;cursor:pointer;min-height:36px}
@@ -207,3 +208,17 @@ footer .logo{font-size:19px}
 footer p{margin:0;max-width:760px}
 footer code{color:#fff}
 [hidden]{display:none!important}
+
+/* ---------- platform nav auth ---------- */
+.nav .nav-auth{border:0;background:transparent;color:#d7dae2;font-family:var(--cond);font-weight:700;font-size:15px;letter-spacing:.08em;text-transform:uppercase;padding:19px 0;border-bottom:3px solid transparent;cursor:pointer}
+.nav .nav-auth:hover{color:#fff}
+
+/* ---------- platform forms ---------- */
+.platform-form{max-width:520px;margin:0 auto;padding:24px 0 40px}
+.platform-form label{display:block;margin:12px 0 4px;font-family:var(--cond);font-weight:700;font-size:12.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.platform-form input,.platform-form select,.platform-form textarea{width:100%;font:inherit;font-size:15px;color:var(--ink);background:#fff;border:1px solid #cfd3dc;border-radius:10px;padding:10px 12px;min-height:44px}
+.platform-form textarea{min-height:120px;resize:vertical}
+.platform-form input:focus,.platform-form select:focus,.platform-form textarea:focus{outline:2px solid var(--hot2);outline-offset:1px}
+.platform-card{border:1px solid var(--line);border-radius:var(--r);background:#fff;padding:16px 18px;margin-bottom:12px}
+.platform-chip{display:inline-flex;align-items:center;border:1px solid #cfd3dc;border-radius:999px;padding:6px 12px;font-size:14px;font-weight:500;cursor:pointer;background:#fff;margin:0 6px 6px 0}
+.platform-chip.on{border-color:var(--hot2);background:var(--warn-soft);color:var(--warn)}

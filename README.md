@@ -31,15 +31,53 @@ components/TournamentDetail.tsx    client: detail body and section tabs
 components/EventParts.tsx      badges, deadline flags, dates, category grid
 lib/data.ts                    reads and validates data/tournaments.json (build time only)
 lib/tournament.ts              types, normalization, date helpers
-data/tournaments.json          the only data file
+data/tournaments.json          tournament schedule (unchanged)
+data/regions.json              province/city filters for pemain
+domain/                        draw, roles, curriculum, rubric
+lib/queries/*                  platform DB access
+migrations/                    SQL schema for platform
+tests/unit/                    vitest domain tests
 ```
+
+## Platform PingpoX (pemain, latihan, auth)
+
+The tournament listing (`/` and `/turnamen/<id>`) still reads **`data/tournaments.json` only**. Platform features use Postgres when `DATABASE_URL` is set, or embedded PGlite under `.data/pglite` for local work (`APP_ENV=local`).
+
+### Routes
+
+- **`/pemain`**, **`/pemain/<id>`** — daftar pemain + filter wilayah
+- **`/latihan`**, **`/latihan/saya`**, **`/latihan/meja`** — pendaftaran Oyuda/kustom, progress, meja pelatih
+- **`/evaluasi`**, **`/staf`** — evaluasi rubrik/AI, draw turnamen platform
+- **`/masuk`**, **`/daftar`** — akun anggota
+
+### Local database and accounts
+
+```bash
+export APP_ENV=local
+npm run dev              # first DB query migrates + seeds accounts
+node scripts/warm-pglite.mjs   # optional: pre-warm PGlite before dev
+npm run migrate          # production Postgres only (needs DATABASE_URL)
+npm run seed-accounts    # (re)apply seed accounts against DATABASE_URL
+```
+
+Seed passwords are **never** hardcoded. Set environment variables (or let local mode write `.data/local-seed-credentials.json`):
+
+| Account | Email | Env var |
+|---------|-------|---------|
+| Superuser | `owner@pingpox.com` | `SEED_OWNER_PASSWORD` |
+| Trainer | `trainer@pingpox.com` | `SEED_TRAINER_PASSWORD` |
+| Event manager | `events@pingpox.com` | `SEED_MANAGER_PASSWORD` |
+| Member | `member@pingpox.com` | `SEED_MEMBER_PASSWORD` |
+
+Do not commit plaintext passwords or check `.data/` into git.
 
 ## Develop
 
 ```bash
 npm ci
-npm run dev      # http://localhost:3000
+npm run dev      # http://localhost:3000 (APP_ENV=local for PGlite)
 npm run lint
+npm test
 npm run build && npm start
 ```
 

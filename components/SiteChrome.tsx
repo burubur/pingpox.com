@@ -1,4 +1,6 @@
 import Link from "next/link";
+import { getCurrentAccount } from "@/lib/auth";
+import { PlatformNav } from "@/components/PlatformNav";
 
 function Logo() {
   return (
@@ -11,17 +13,18 @@ function Logo() {
   );
 }
 
-export function SiteHeader({ updated }: { updated: string | null }) {
+export async function SiteHeader({ updated }: { updated: string | null }) {
+  const account = await getCurrentAccount();
   return (
     <header className="nav">
       <div className="wrap">
         <Link className="logo" href="/" aria-label="Beranda Jadwal Turnamen Tenis Meja">
           <Logo />
         </Link>
-        <nav className="navlinks" aria-label="Utama">
-          <Link href="/" className="on">Turnamen</Link>
-          <a href="#tentang">Tentang data</a>
-        </nav>
+        <PlatformNav
+          signedIn={Boolean(account)}
+          displayName={account?.displayName}
+        />
         <div className="upd">{updated ? `Diperbarui ${updated}` : "Terakhir diperbarui: —"}</div>
       </div>
     </header>
@@ -36,8 +39,9 @@ export function SiteFooter({ updated }: { updated: string | null }) {
           <Logo />
         </span>
         <p>
-          Data dari <code>tournaments.json</code>, dikumpulkan dari sumber publik. Info bisa berubah; konfirmasi ke
-          panitia sebelum mendaftar.
+          Data turnamen dari <code>tournaments.json</code>, dikumpulkan dari sumber publik. Fitur platform
+          PingpoX (pemain, latihan, evaluasi) memakai basis data lokal atau Postgres saat{" "}
+          <code>DATABASE_URL</code> disetel.
         </p>
         {updated && <p>Terakhir diperbarui: {updated}</p>}
       </div>
