@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useId, useLayoutEffect, useRef, useState, type KeyboardEvent as ReactKeyboardEvent } from "react";
-import { usePathname } from "next/navigation";
+import { Suspense, useEffect, useId, useLayoutEffect, useRef, useState, type KeyboardEvent as ReactKeyboardEvent } from "react";
+import { usePathname, useSearchParams } from "next/navigation";
 import {
   CALENDAR_HREF,
   featuredEvent,
@@ -18,6 +18,16 @@ type Feature = { event: ChromeEvent; kind: "next" | "live" };
 
 function finePointer() {
   return window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+}
+
+/** Home filters rewrite the URL with history.replaceState, which drops the hash and fires neither hashchange nor popstate. */
+function HashSync({ onHash }: { onHash: (hash: string) => void }) {
+  const path = usePathname();
+  const search = useSearchParams().toString();
+  useLayoutEffect(() => {
+    onHash(window.location.hash);
+  }, [onHash, path, search]);
+  return null;
 }
 
 export function SiteHeader({ events, buildDay }: { events: ChromeEvent[]; buildDay: DayKey }) {
@@ -116,6 +126,9 @@ export function SiteHeader({ events, buildDay }: { events: ChromeEvent[]; buildD
 
   return (
     <header className={`nav${mobile ? " menu-open" : ""}`} ref={headerRef}>
+      <Suspense fallback={null}>
+        <HashSync onHash={setHash} />
+      </Suspense>
       <div className="wrap nav-bar">
         <a className="logo" href="/" aria-label="Beranda PingpoX" onClick={close}>
           <Logo />
