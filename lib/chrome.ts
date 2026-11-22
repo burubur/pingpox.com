@@ -2,7 +2,6 @@ import {
   compareByStart,
   eventHref,
   fmtRange,
-  isLive,
   placeLine,
   type DayKey,
   type Tournament,
@@ -14,34 +13,52 @@ export type ChromeEvent = {
   name: string;
   when: string;
   place: string;
-  live: boolean;
+  start: DayKey;
+  last: DayKey;
   unconfirmed: boolean;
   tone: number;
 };
 
-/** In-progress and upcoming events. Sample rows are omitted. */
-export function scheduleEvents(tournaments: Tournament[], today: DayKey): ChromeEvent[] {
+export const LIST_HREF = "/#jadwal";
+export const CALENDAR_HREF = "/?tampilan=kalender#jadwal";
+
+/** Dated public events, including ones that are already over. Sample rows are omitted. */
+export function chromeCandidates(tournaments: Tournament[]): ChromeEvent[] {
   return tournaments
-    .filter((t) => !t.sample && t.start && t.last && t.last >= today)
+    .filter((t) => !t.sample && t.start && t.last)
     .sort(compareByStart)
     .map((t) => ({
       href: eventHref(t),
       name: t.name,
       when: fmtRange(t.start, t.end),
       place: placeLine(t) || "Lokasi belum diumumkan",
-      live: isLive(t, today),
+      start: t.start as DayKey,
+      last: t.last as DayKey,
       unconfirmed: t.unconfirmed,
       tone: t.tone,
     }));
+}
+
+export function isChromeLive(event: ChromeEvent, today: DayKey): boolean {
+  return event.start <= today && event.last >= today;
+}
+
+/** In progress or still ahead of today. */
+export function upcomingChrome(events: ChromeEvent[], today: DayKey): ChromeEvent[] {
+  return events.filter((event) => event.last >= today);
 }
 
 /**
  * The next event that has not started. When every remaining row is already
  * underway, the earliest of those is returned as live instead.
  */
-export function featuredEvent(events: ChromeEvent[]): { event: ChromeEvent; kind: "next" | "live" } | null {
-  const next = events.find((event) => !event.live);
+export function featuredEvent(
+  events: ChromeEvent[],
+  today: DayKey,
+): { event: ChromeEvent; kind: "next" | "live" } | null {
+  const upcoming = upcomingChrome(events, today);
+  const next = upcoming.find((event) => event.start > today);
   if (next) return { event: next, kind: "next" };
-  const live = events.find((event) => event.live);
+  const live = upcoming.find((event) => isChromeLive(event, today));
   return live ? { event: live, kind: "live" } : null;
 }

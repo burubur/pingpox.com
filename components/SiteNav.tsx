@@ -2,7 +2,16 @@
 
 import { useEffect, useId, useRef, useState, type KeyboardEvent as ReactKeyboardEvent } from "react";
 import { usePathname } from "next/navigation";
-import type { ChromeEvent } from "@/lib/chrome";
+import {
+  CALENDAR_HREF,
+  featuredEvent,
+  isChromeLive,
+  LIST_HREF,
+  upcomingChrome,
+  type ChromeEvent,
+} from "@/lib/chrome";
+import { useToday } from "@/lib/use-today";
+import type { DayKey } from "@/lib/tournament";
 import { Logo } from "./Logo";
 
 type Feature = { event: ChromeEvent; kind: "next" | "live" };
@@ -11,7 +20,10 @@ function finePointer() {
   return window.matchMedia("(hover: hover) and (pointer: fine)").matches;
 }
 
-export function SiteHeader({ events, feature }: { events: ChromeEvent[]; feature: Feature | null }) {
+export function SiteHeader({ events, buildDay }: { events: ChromeEvent[]; buildDay: DayKey }) {
+  const today = useToday(buildDay);
+  const upcoming = upcomingChrome(events, today).slice(0, 4);
+  const feature = featuredEvent(events, today);
   const path = usePathname();
   const [panel, setPanel] = useState(false);
   const [mobile, setMobile] = useState(false);
@@ -22,6 +34,7 @@ export function SiteHeader({ events, feature }: { events: ChromeEvent[]; feature
   const toggleBtn = useRef<HTMLButtonElement>(null);
   const pendingPanelFocus = useRef(false);
   const pendingMobileFocus = useRef(false);
+  const ignoreFocus = useRef(false);
   const panelId = useId();
   const navId = useId();
   const onHome = path === "/";
@@ -50,10 +63,14 @@ export function SiteHeader({ events, feature }: { events: ChromeEvent[]; feature
     if (!panel && !mobile) return;
     const onKey = (e: KeyboardEvent) => {
       if (e.key !== "Escape") return;
+      if (panel) {
+        ignoreFocus.current = true;
+        turnamenBtn.current?.focus();
+      } else {
+        toggleBtn.current?.focus();
+      }
       setPanel(false);
       setMobile(false);
-      if (panel) turnamenBtn.current?.focus();
-      else toggleBtn.current?.focus();
     };
     const onPointer = (e: PointerEvent) => {
       if (!headerRef.current?.contains(e.target as Node)) {
@@ -114,6 +131,10 @@ export function SiteHeader({ events, feature }: { events: ChromeEvent[]; feature
                 if (!finePointer()) setPanel((open) => !open);
               }}
               onFocus={(e) => {
+                if (ignoreFocus.current) {
+                  ignoreFocus.current = false;
+                  return;
+                }
                 if (e.currentTarget.matches(":focus-visible") && finePointer()) setPanel(true);
               }}
               onKeyDown={onTurnamenKey}
@@ -127,26 +148,26 @@ export function SiteHeader({ events, feature }: { events: ChromeEvent[]; feature
               <div className="mega-inner">
                 <div className="mega-col">
                   <p className="lbl">Jadwal</p>
-                  <a href="/#jadwal" onClick={close}>
+                  <a href={LIST_HREF} onClick={close}>
                     <b>Daftar turnamen</b>
                     <span>Semua turnamen yang tercatat</span>
                   </a>
-                  <a href="/?tampilan=kalender" onClick={close}>
+                  <a href={CALENDAR_HREF} onClick={close}>
                     <b>Kalender</b>
                     <span>Jadwal per bulan</span>
                   </a>
                 </div>
                 <div className="mega-col">
                   <p className="lbl">Mendatang</p>
-                  {events.length === 0 ? (
+                  {upcoming.length === 0 ? (
                     <p className="mega-empty">Belum ada turnamen mendatang di jadwal ini.</p>
                   ) : (
-                    events.map((event) => (
+                    upcoming.map((event) => (
                       <a key={event.href} href={event.href} onClick={close}>
                         <b>{event.name}</b>
                         <span>
                           {event.when}
-                          {event.live ? " · berlangsung" : ""}
+                          {isChromeLive(event, today) ? " · berlangsung" : ""}
                           {event.unconfirmed ? " · belum dikonfirmasi" : ""}
                         </span>
                       </a>
@@ -161,7 +182,7 @@ export function SiteHeader({ events, feature }: { events: ChromeEvent[]; feature
             Tentang data
           </a>
         </nav>
-        <form className="navsearch" action="/" method="get" role="search">
+        <form className="navsearch" action={LIST_HREF} method="get" role="search">
           <label>
             <span className="sr">Cari turnamen</span>
             <input type="search" name="q" placeholder="Cari turnamen" autoComplete="off" enterKeyHint="search" />
@@ -193,7 +214,7 @@ export function SiteHeader({ events, feature }: { events: ChromeEvent[]; feature
 function FeatureTile({ feature, onNavigate }: { feature: Feature | null; onNavigate: () => void }) {
   if (!feature) {
     return (
-      <a className="mega-feature g1" href="/?tampilan=kalender" onClick={onNavigate}>
+      <a className="mega-feature g1" href={CALENDAR_HREF} onClick={onNavigate}>
         <span className="lbl">Jadwal</span>
         <strong>Kalender turnamen</strong>
         <span>Semua turnamen yang tercatat, disusun per bulan.</span>

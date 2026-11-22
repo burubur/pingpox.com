@@ -1,8 +1,14 @@
-import type { ChromeEvent } from "@/lib/chrome";
+"use client";
+
+import { CALENDAR_HREF, featuredEvent, LIST_HREF, type ChromeEvent } from "@/lib/chrome";
+import { useToday } from "@/lib/use-today";
+import type { DayKey } from "@/lib/tournament";
 
 type Feature = { event: ChromeEvent; kind: "next" | "live" };
 
-export function HomeHero({ feature, total }: { feature: Feature | null; total: number }) {
+export function HomeHero({ events, buildDay, total }: { events: ChromeEvent[]; buildDay: DayKey; total: number }) {
+  const today = useToday(buildDay);
+  const feature = featuredEvent(events, today);
   return (
     <section className="home-hero" aria-label="Pengantar">
       <div className="home-hero-bg">
@@ -18,10 +24,10 @@ export function HomeHero({ feature, total }: { feature: Feature | null; total: n
               {total === 0 ? "Belum ada turnamen tercatat" : `${total} turnamen tercatat`}
             </p>
             <div className="actions">
-              <a className="btn btn-light" href="/#jadwal">
+              <a className="btn btn-light" href={LIST_HREF}>
                 Lihat jadwal
               </a>
-              <a className="btn btn-ghost" href="/?tampilan=kalender">
+              <a className="btn btn-ghost" href={CALENDAR_HREF}>
                 Lihat kalender
               </a>
             </div>

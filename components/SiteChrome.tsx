@@ -1,7 +1,21 @@
-import type { ChromeEvent } from "@/lib/chrome";
+"use client";
+
+import { CALENDAR_HREF, isChromeLive, LIST_HREF, upcomingChrome, type ChromeEvent } from "@/lib/chrome";
+import { useToday } from "@/lib/use-today";
+import type { DayKey } from "@/lib/tournament";
 import { Logo } from "./Logo";
 
-export function SiteFooter({ updated, events }: { updated: string | null; events: ChromeEvent[] }) {
+export function SiteFooter({
+  updated,
+  events,
+  buildDay,
+}: {
+  updated: string | null;
+  events: ChromeEvent[];
+  buildDay: DayKey;
+}) {
+  const today = useToday(buildDay);
+  const upcoming = upcomingChrome(events, today).slice(0, 4);
   return (
     <footer id="tentang">
       <div className="wrap">
@@ -16,26 +30,26 @@ export function SiteFooter({ updated, events }: { updated: string | null; events
             <h2>Turnamen</h2>
             <ul>
               <li>
-                <a href="/#jadwal">Daftar</a>
+                <a href={LIST_HREF}>Daftar</a>
               </li>
               <li>
-                <a href="/?tampilan=kalender">Kalender</a>
+                <a href={CALENDAR_HREF}>Kalender</a>
               </li>
             </ul>
           </div>
           <div className="foot-col">
             <h2>Mendatang</h2>
-            {events.length === 0 ? (
+            {upcoming.length === 0 ? (
               <p>Belum ada turnamen mendatang di jadwal ini.</p>
             ) : (
               <ul>
-                {events.map((event) => (
+                {upcoming.map((event) => (
                   <li key={event.href}>
                     <a href={event.href}>
                       {event.name}
                       <small>
                         {event.when}
-                        {event.live ? " · berlangsung" : ""}
+                        {isChromeLive(event, today) ? " · berlangsung" : ""}
                       </small>
                     </a>
                   </li>

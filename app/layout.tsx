@@ -4,7 +4,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Analytics } from "@vercel/analytics/next";
 import { SiteFooter } from "@/components/SiteChrome";
 import { SiteHeader } from "@/components/SiteNav";
-import { featuredEvent, scheduleEvents } from "@/lib/chrome";
+import { chromeCandidates } from "@/lib/chrome";
 import { getSiteData } from "@/lib/data";
 import { SITE_NAME, fmtUpdated, todayKey } from "@/lib/tournament";
 import "./globals.css";
@@ -29,13 +29,14 @@ export const viewport: Viewport = { themeColor: "#0b0c10", width: "device-width"
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   const data = getSiteData();
   const updated = fmtUpdated(data.updatedAt);
-  const upcoming = scheduleEvents(data.tournaments, todayKey("Asia/Jakarta"));
+  const buildDay = todayKey("Asia/Jakarta");
+  const events = chromeCandidates(data.tournaments);
   return (
     <html lang="id" className={`${body.variable} ${cond.variable}`}>
       <body>
-        <SiteHeader events={upcoming.slice(0, 4)} feature={featuredEvent(upcoming)} />
+        <SiteHeader events={events} buildDay={buildDay} />
         {children}
-        <SiteFooter updated={updated} events={upcoming.slice(0, 4)} />
+        <SiteFooter updated={updated} events={events} buildDay={buildDay} />
         <SpeedInsights />
         <Analytics />
       </body>

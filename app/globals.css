@@ -103,8 +103,6 @@ button{font:inherit}
 .home-hero .lead{margin:0;max-width:46ch;color:#e6e8ee;font-size:17px}
 .hero-count{margin:12px 0 0;font-family:var(--cond);font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#ffb199;font-size:14px}
 .home-hero .actions{margin-top:18px}
-.btn-ghost{background:rgba(255,255,255,.14);color:#fff;border:1px solid #fff}
-.btn-ghost:hover{background:rgba(255,255,255,.24)}
 .hero-card{position:relative;display:flex;flex-direction:column;align-items:flex-start;gap:8px;padding:18px 16px 16px;border-radius:16px;color:#fff;text-decoration:none;overflow:hidden;min-height:210px;box-shadow:0 16px 40px rgba(0,0,0,.28)}
 .hero-card::before{content:"";position:absolute;inset:0;background:
   repeating-linear-gradient(115deg,rgba(255,255,255,.05) 0 2px,rgb(255 255 255 / 0) 2px 18px),
@@ -187,6 +185,8 @@ button{font:inherit}
 .btn-light{background:#fff;color:var(--night)}
 .btn-light:hover{background:#ffe9e3}
 .btn-hot{background:var(--grad);color:#fff}
+.btn.btn-ghost{background:rgba(255,255,255,.14);color:#fff;border:1px solid #fff}
+.btn.btn-ghost:hover{background:rgba(255,255,255,.24)}
 .actions{margin-top:16px;display:flex;gap:10px;flex-wrap:wrap;align-items:center}
 .cd{display:flex;gap:6px}
 .cd div{min-width:58px;text-align:center;background:rgba(0,0,0,.35);border:1px solid var(--line-d);border-radius:10px;padding:6px 4px 4px}
