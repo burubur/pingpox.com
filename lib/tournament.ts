@@ -65,7 +65,7 @@ export const BULAN_PANJANG = [
   "Juli", "Agustus", "September", "Oktober", "November", "Desember",
 ];
 export const HARI = ["Sen", "Sel", "Rab", "Kam", "Jum", "Sab", "Min"];
-export const SITE_NAME = "Jadwal Turnamen Tenis Meja Indonesia";
+export const SITE_NAME = "PingpoX";
 
 function blank(v: unknown): boolean {
   return v === null || v === undefined || (typeof v === "string" && v.trim() === "");
