@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useId, useRef, useState, type KeyboardEvent as ReactKeyboardEvent } from "react";
+import { useEffect, useId, useLayoutEffect, useRef, useState, type KeyboardEvent as ReactKeyboardEvent } from "react";
 import { usePathname } from "next/navigation";
 import {
   CALENDAR_HREF,
@@ -37,10 +37,24 @@ export function SiteHeader({ events, buildDay }: { events: ChromeEvent[]; buildD
   const ignoreFocus = useRef(false);
   const panelId = useId();
   const navId = useId();
-  // Path only: "/" is Beranda, "/turnamen" and "/turnamen/…" are Turnamen.
+  const [hash, setHash] = useState("");
+  // #tentang is the footer section. usePathname() omits the hash, so read it here.
+  // Any other hash keeps the path rules: "/" is Beranda, "/turnamen" and "/turnamen/…" are Turnamen.
   // Query strings such as ?q= or ?tampilan=kalender stay on Beranda.
-  const onHome = path === "/";
-  const onEvents = path === "/turnamen" || !!path?.startsWith("/turnamen/");
+  const onAbout = hash === "#tentang";
+  const onHome = !onAbout && path === "/";
+  const onEvents = !onAbout && (path === "/turnamen" || !!path?.startsWith("/turnamen/"));
+
+  useLayoutEffect(() => {
+    const sync = () => setHash(window.location.hash);
+    sync();
+    window.addEventListener("hashchange", sync);
+    window.addEventListener("popstate", sync);
+    return () => {
+      window.removeEventListener("hashchange", sync);
+      window.removeEventListener("popstate", sync);
+    };
+  }, [path]);
 
   useEffect(() => {
     setPanel(false);
@@ -181,7 +195,15 @@ export function SiteHeader({ events, buildDay }: { events: ChromeEvent[]; buildD
               </div>
             </div>
           </div>
-          <a href="#tentang" onClick={close}>
+          <a
+            href="#tentang"
+            className={onAbout ? "on" : undefined}
+            aria-current={onAbout ? "page" : undefined}
+            onClick={() => {
+              setHash("#tentang");
+              close();
+            }}
+          >
             Tentang data
           </a>
         </nav>
