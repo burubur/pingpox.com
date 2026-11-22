@@ -12,6 +12,7 @@ export function HomeHero({ events, buildDay, total }: { events: ChromeEvent[]; b
   return (
     <section className="home-hero" aria-label="Pengantar">
       <div className="home-hero-bg">
+        <div className="home-hero-glow" aria-hidden="true" />
         <div className="wrap home-hero-grid">
           <div>
             <p className="lbl">PingpoX</p>
