@@ -22,6 +22,12 @@ export type ChromeEvent = {
 export const LIST_HREF = "/#jadwal";
 export const CALENDAR_HREF = "/?tampilan=kalender#jadwal";
 
+/**
+ * Home filters call history.replaceState, which drops #tentang and fires
+ * neither hashchange nor popstate. Listeners resync the nav from this event.
+ */
+export const URL_CHANGE_EVENT = "pingpox:url";
+
 /** Dated public events, including ones that are already over. Sample rows are omitted. */
 export function chromeCandidates(tournaments: Tournament[]): ChromeEvent[] {
   return tournaments

@@ -1,13 +1,14 @@
 "use client";
 
-import { Suspense, useEffect, useId, useLayoutEffect, useRef, useState, type KeyboardEvent as ReactKeyboardEvent } from "react";
-import { usePathname, useSearchParams } from "next/navigation";
+import { useEffect, useId, useLayoutEffect, useRef, useState, type KeyboardEvent as ReactKeyboardEvent } from "react";
+import { usePathname } from "next/navigation";
 import {
   CALENDAR_HREF,
   featuredEvent,
   isChromeLive,
   LIST_HREF,
   upcomingChrome,
+  URL_CHANGE_EVENT,
   type ChromeEvent,
 } from "@/lib/chrome";
 import { useToday } from "@/lib/use-today";
@@ -20,14 +21,19 @@ function finePointer() {
   return window.matchMedia("(hover: hover) and (pointer: fine)").matches;
 }
 
-/** Home filters rewrite the URL with history.replaceState, which drops the hash and fires neither hashchange nor popstate. */
-function HashSync({ onHash }: { onHash: (hash: string) => void }) {
-  const path = usePathname();
-  const search = useSearchParams().toString();
-  useLayoutEffect(() => {
-    onHash(window.location.hash);
-  }, [onHash, path, search]);
-  return null;
+/** True when #tentang is the section in view, including when the page cannot scroll it any higher. */
+function tentangInView(header: HTMLElement | null): boolean {
+  const el = document.getElementById("tentang");
+  if (!el) return false;
+  const headerH = header?.offsetHeight ?? 60;
+  const rect = el.getBoundingClientRect();
+  const visible = rect.bottom > headerH + 8 && rect.top < window.innerHeight - 8;
+  if (!visible) return false;
+  const inReadingBand = rect.top <= Math.max(headerH + 16, window.innerHeight * 0.65);
+  const atPageEnd =
+    window.scrollY > 8 &&
+    window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 4;
+  return inReadingBand || atPageEnd;
 }
 
 export function SiteHeader({ events, buildDay }: { events: ChromeEvent[]; buildDay: DayKey }) {
@@ -47,22 +53,132 @@ export function SiteHeader({ events, buildDay }: { events: ChromeEvent[]; buildD
   const ignoreFocus = useRef(false);
   const panelId = useId();
   const navId = useId();
-  const [hash, setHash] = useState("");
-  // #tentang is the footer section. usePathname() omits the hash, so read it here.
-  // Any other hash keeps the path rules: "/" is Beranda, "/turnamen" and "/turnamen/…" are Turnamen.
-  // Query strings such as ?q= or ?tampilan=kalender stay on Beranda.
-  const onAbout = hash === "#tentang";
+  // #tentang is a section on the current page. The underline follows whether that
+  // section is in view, and also the URL after filters rewrite it. Any other hash
+  // keeps the path rules: "/" is Beranda, "/turnamen" and "/turnamen/…" are Turnamen.
+  const [onAbout, setOnAbout] = useState(false);
+  const pendingAbout = useRef(false);
+  const suppressAbout = useRef(false);
   const onHome = !onAbout && path === "/";
   const onEvents = !onAbout && (path === "/turnamen" || !!path?.startsWith("/turnamen/"));
 
   useLayoutEffect(() => {
-    const sync = () => setHash(window.location.hash);
-    sync();
-    window.addEventListener("hashchange", sync);
-    window.addEventListener("popstate", sync);
+    let timer = 0;
+    let raf = 0;
+    const inView = () => tentangInView(headerRef.current);
+    const clearTimer = () => window.clearTimeout(timer);
+
+    const applyViewport = () => {
+      if (pendingAbout.current && window.location.hash === "#tentang" && !inView()) return;
+      pendingAbout.current = false;
+      clearTimer();
+      if (suppressAbout.current) {
+        if (!inView()) suppressAbout.current = false;
+        return;
+      }
+      setOnAbout(inView());
+    };
+
+    const arm = () => {
+      suppressAbout.current = false;
+      clearTimer();
+      setOnAbout(true);
+      if (inView()) {
+        pendingAbout.current = false;
+        return;
+      }
+      pendingAbout.current = true;
+      timer = window.setTimeout(() => {
+        pendingAbout.current = false;
+        if (suppressAbout.current) return;
+        setOnAbout(inView());
+      }, 1500);
+    };
+
+    const onScroll = () => {
+      const visible = inView();
+      if (suppressAbout.current) {
+        if (!visible) suppressAbout.current = false;
+        else return;
+      }
+      if (visible) {
+        pendingAbout.current = false;
+        clearTimer();
+        setOnAbout(true);
+        return;
+      }
+      if (pendingAbout.current && window.location.hash === "#tentang") return;
+      pendingAbout.current = false;
+      setOnAbout(false);
+    };
+
+    // Home filters call history.replaceState, which drops #tentang and fires
+    // neither hashchange nor popstate. A cleared hash turns the underline off
+    // until the section leaves the viewport and the reader comes back.
+    const onUrl = () => {
+      pendingAbout.current = false;
+      clearTimer();
+      if (window.location.hash === "#tentang") {
+        suppressAbout.current = false;
+        setOnAbout(inView());
+        return;
+      }
+      suppressAbout.current = true;
+      setOnAbout(false);
+    };
+
+    const onHash = () => {
+      if (window.location.hash === "#tentang") {
+        arm();
+        return;
+      }
+      pendingAbout.current = false;
+      clearTimer();
+      if (suppressAbout.current) return;
+      setOnAbout(inView());
+    };
+
+    const onPop = () => {
+      pendingAbout.current = false;
+      clearTimer();
+      suppressAbout.current = false;
+      if (window.location.hash === "#tentang") {
+        if (inView()) setOnAbout(true);
+        else arm();
+        return;
+      }
+      setOnAbout(inView());
+    };
+
+    if (window.location.hash === "#tentang") {
+      if (inView()) setOnAbout(true);
+      else arm();
+    } else {
+      suppressAbout.current = false;
+      pendingAbout.current = false;
+      setOnAbout(inView());
+    }
+
+    const onScrollRaf = () => {
+      window.cancelAnimationFrame(raf);
+      raf = window.requestAnimationFrame(onScroll);
+    };
+
+    window.addEventListener("scroll", onScrollRaf, { passive: true });
+    window.addEventListener("resize", onScrollRaf);
+    window.addEventListener("hashchange", onHash);
+    window.addEventListener("popstate", onPop);
+    window.addEventListener(URL_CHANGE_EVENT, onUrl);
+    window.addEventListener("scrollend", applyViewport);
     return () => {
-      window.removeEventListener("hashchange", sync);
-      window.removeEventListener("popstate", sync);
+      window.cancelAnimationFrame(raf);
+      clearTimer();
+      window.removeEventListener("scroll", onScrollRaf);
+      window.removeEventListener("resize", onScrollRaf);
+      window.removeEventListener("hashchange", onHash);
+      window.removeEventListener("popstate", onPop);
+      window.removeEventListener(URL_CHANGE_EVENT, onUrl);
+      window.removeEventListener("scrollend", applyViewport);
     };
   }, [path]);
 
@@ -126,9 +242,6 @@ export function SiteHeader({ events, buildDay }: { events: ChromeEvent[]; buildD
 
   return (
     <header className={`nav${mobile ? " menu-open" : ""}`} ref={headerRef}>
-      <Suspense fallback={null}>
-        <HashSync onHash={setHash} />
-      </Suspense>
       <div className="wrap nav-bar">
         <a className="logo" href="/" aria-label="Beranda PingpoX" onClick={close}>
           <Logo />
@@ -211,9 +324,11 @@ export function SiteHeader({ events, buildDay }: { events: ChromeEvent[]; buildD
           <a
             href="#tentang"
             className={onAbout ? "on" : undefined}
-            aria-current={onAbout ? "page" : undefined}
+            aria-current={onAbout ? "location" : undefined}
             onClick={() => {
-              setHash("#tentang");
+              suppressAbout.current = false;
+              pendingAbout.current = !tentangInView(headerRef.current);
+              setOnAbout(true);
               close();
             }}
           >

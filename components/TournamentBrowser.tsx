@@ -3,13 +3,14 @@
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "next/navigation";
+import { URL_CHANGE_EVENT } from "@/lib/chrome";
 import {
   BULAN, HARI, LIST_URL_KEY, NA, compareByStart, dayNumber, eventHref, fmtMonth, fmtRange, isPast,
   monthGrid, monthIndex, monthKey, placeLine, shiftMonth,
   type DayKey, type Tournament,
 } from "@/lib/tournament";
 import { useToday } from "@/lib/use-today";
-import { Badges, Deadline, EventDate, Place, Side, Val } from "./EventParts";
+import { Badges, Deadline, Val } from "./EventParts";
 
 
 
@@ -76,9 +77,13 @@ function TournamentBrowser({ tournaments, buildDay, hasSample, initial }: Props 
   const set = (patch: Partial<Filters>) => setF((prev) => ({ ...prev, ...patch }));
 
   useEffect(() => {
-    const url = `${window.location.pathname}${writeFilters(f)}`;
-    if (url !== `${window.location.pathname}${window.location.search}`) window.history.replaceState(null, "", url);
-    sessionStorage.setItem(LIST_URL_KEY, url);
+    const next = `${window.location.pathname}${writeFilters(f)}`;
+    const current = `${window.location.pathname}${window.location.search}`;
+    if (next !== current) {
+      window.history.replaceState(null, "", next);
+      window.dispatchEvent(new Event(URL_CHANGE_EVENT));
+    }
+    sessionStorage.setItem(LIST_URL_KEY, next);
   }, [f]);
 
   const options = useMemo(() => {
@@ -120,76 +125,85 @@ function TournamentBrowser({ tournaments, buildDay, hasSample, initial }: Props 
 
   return (
     <>
-      <div className="subbar" id="jadwal">
-        <div className="wrap">
-          <p className="page-title">Turnamen</p>
-          <div className="seg" role="group" aria-label="Tampilan">
-            <button type="button" aria-pressed={f.view === "list"} onClick={() => set({ view: "list" })}>
-              Daftar
-            </button>
-            <button type="button" aria-pressed={f.view === "cal"} onClick={() => set({ view: "cal" })}>
-              Kalender
-            </button>
+      <div className="hub" id="jadwal">
+        <div className="hub-head">
+          <div className="wrap hub-head-row">
+            <div>
+              <p className="lbl">Jadwal</p>
+              <h2 className="page-title">Turnamen</h2>
+            </div>
+            <div className="seg" role="group" aria-label="Tampilan">
+              <button type="button" aria-pressed={f.view === "list"} onClick={() => set({ view: "list" })}>
+                Daftar
+              </button>
+              <button type="button" aria-pressed={f.view === "cal"} onClick={() => set({ view: "cal" })}>
+                Kalender
+              </button>
+            </div>
           </div>
-          <label className="search">
-            <span className="sr">Cari turnamen</span>
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <circle cx="11" cy="11" r="7" />
-              <path d="M20 20l-4-4" />
-            </svg>
-            <input
-              type="search"
-              placeholder="Cari nama turnamen, venue, kategori, panitia…"
-              autoComplete="off"
-              value={f.q}
-              onChange={(e) => set({ q: e.target.value })}
-            />
-          </label>
         </div>
-      </div>
+        <div className="hub-tools">
+          <div className="wrap hub-tools-row">
+            <label className="search">
+              <span className="sr">Cari turnamen</span>
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <circle cx="11" cy="11" r="7" />
+                <path d="M20 20l-4-4" />
+              </svg>
+              <input
+                type="search"
+                placeholder="Cari nama turnamen, venue, kategori, panitia…"
+                autoComplete="off"
+                value={f.q}
+                onChange={(e) => set({ q: e.target.value })}
+              />
+            </label>
+            <section className="filters" aria-label="Filter">
+              <div className="f">
+                <label className="lbl" htmlFor="f-loc">Kota / Provinsi</label>
+                <select id="f-loc" value={f.loc} onChange={(e) => set({ loc: e.target.value })}>
+                  <option value="">Semua kota &amp; provinsi</option>
+                  {options.cities.length > 0 && (
+                    <optgroup label="Kota">
+                      {options.cities.map((c) => <option key={c} value={`c:${c}`}>{c}</option>)}
+                    </optgroup>
+                  )}
+                  {options.provs.length > 0 && (
+                    <optgroup label="Provinsi">
+                      {options.provs.map((p) => <option key={p} value={`p:${p}`}>{p}</option>)}
+                    </optgroup>
+                  )}
+                </select>
+              </div>
+              <div className="f">
+                <label className="lbl" htmlFor="f-month">Bulan</label>
+                <select id="f-month" value={f.month} onChange={(e) => set({ month: e.target.value })}>
+                  <option value="">Semua bulan</option>
+                  {options.months.map((m) => <option key={m} value={m}>{fmtMonth(m)}</option>)}
+                </select>
+              </div>
+              <div className="toggles">
+                <label className="toggle">
+                  <input type="checkbox" checked={f.onlyConf} onChange={(e) => set({ onlyConf: e.target.checked })} />{" "}
+                  Hanya yang terkonfirmasi
+                </label>
+                <label className="toggle">
+                  <input type="checkbox" checked={f.showPast} onChange={(e) => set({ showPast: e.target.checked })} />{" "}
+                  Tampilkan yang sudah lewat
+                </label>
+              </div>
+            </section>
+            <FilterChips f={f} set={set} />
+          </div>
+        </div>
 
-      <main className="wrap">
+      <main className="wrap hub-main">
         <div className="intro">
           <p>
             Jadwal turnamen tenis meja (ping pong) di seluruh Indonesia. Selalu cek ulang detail ke panitia lewat
             tautan sumber.
           </p>
         </div>
-        <section className="filters" aria-label="Filter">
-          <div className="f">
-            <label className="lbl" htmlFor="f-loc">Kota / Provinsi</label>
-            <select id="f-loc" value={f.loc} onChange={(e) => set({ loc: e.target.value })}>
-              <option value="">Semua kota &amp; provinsi</option>
-              {options.cities.length > 0 && (
-                <optgroup label="Kota">
-                  {options.cities.map((c) => <option key={c} value={`c:${c}`}>{c}</option>)}
-                </optgroup>
-              )}
-              {options.provs.length > 0 && (
-                <optgroup label="Provinsi">
-                  {options.provs.map((p) => <option key={p} value={`p:${p}`}>{p}</option>)}
-                </optgroup>
-              )}
-            </select>
-          </div>
-          <div className="f">
-            <label className="lbl" htmlFor="f-month">Bulan</label>
-            <select id="f-month" value={f.month} onChange={(e) => set({ month: e.target.value })}>
-              <option value="">Semua bulan</option>
-              {options.months.map((m) => <option key={m} value={m}>{fmtMonth(m)}</option>)}
-            </select>
-          </div>
-          <div className="toggles">
-            <label className="toggle">
-              <input type="checkbox" checked={f.onlyConf} onChange={(e) => set({ onlyConf: e.target.checked })} />{" "}
-              Hanya yang terkonfirmasi
-            </label>
-            <label className="toggle">
-              <input type="checkbox" checked={f.showPast} onChange={(e) => set({ showPast: e.target.checked })} />{" "}
-              Tampilkan yang sudah lewat
-            </label>
-          </div>
-        </section>
 
         {hasSample && (
           <div className="banner" role="note">
@@ -232,6 +246,7 @@ function TournamentBrowser({ tournaments, buildDay, hasSample, initial }: Props 
           <EventList rows={rows} today={today} />
         )}
       </main>
+      </div>
     </>
   );
 }
@@ -249,17 +264,63 @@ function EmptyResult({ pastHidden, onReset }: { pastHidden: number; onReset: () 
   );
 }
 
+function FilterChips({ f, set }: { f: Filters; set: (patch: Partial<Filters>) => void }) {
+  const chips: { key: string; label: string; clear: Partial<Filters> }[] = [];
+  if (f.q) chips.push({ key: "q", label: `Cari: ${f.q}`, clear: { q: "" } });
+  if (f.loc.startsWith("c:")) chips.push({ key: "loc", label: `Kota: ${f.loc.slice(2)}`, clear: { loc: "" } });
+  else if (f.loc.startsWith("p:")) chips.push({ key: "loc", label: `Provinsi: ${f.loc.slice(2)}`, clear: { loc: "" } });
+  if (f.month) chips.push({ key: "month", label: fmtMonth(f.month), clear: { month: "" } });
+  if (f.onlyConf) chips.push({ key: "conf", label: "Hanya yang terkonfirmasi", clear: { onlyConf: false } });
+  if (f.showPast) chips.push({ key: "past", label: "Termasuk yang sudah lewat", clear: { showPast: false } });
+  if (!chips.length) return null;
+  return (
+    <div className="fchips" aria-label="Filter aktif">
+      {chips.map((chip) => (
+        <button key={chip.key} type="button" onClick={() => set(chip.clear)}>
+          <span>{chip.label}</span>
+          <span aria-hidden="true">×</span>
+          <span className="sr">Hapus filter</span>
+        </button>
+      ))}
+    </div>
+  );
+}
+
+function dateBlock(t: Tournament): { day: string; month: string; year: string } {
+  if (!t.start) return { day: "—", month: "Tgl", year: "" };
+  const startDay = dayNumber(t.start);
+  const sameMonth = t.end && t.end > t.start && monthKey(t.end) === monthKey(t.start);
+  const day = sameMonth ? `${startDay}–${dayNumber(t.end!)}` : String(startDay);
+  return { day, month: BULAN[monthIndex(t.start)], year: t.start.slice(0, 4) };
+}
+
 function EventList({ rows, today }: { rows: Tournament[]; today: DayKey }) {
   const dated = rows.filter((t) => t.start);
   const undated = rows.filter((t) => !t.start);
+  const groups: { key: string; items: Tournament[] }[] = [];
+  for (const t of dated) {
+    const key = monthKey(t.start!);
+    const last = groups[groups.length - 1];
+    if (last && last.key === key) last.items.push(t);
+    else groups.push({ key, items: [t] });
+  }
   return (
     <div className="list">
-      {dated.map((t) => <EventCard key={t.id} t={t} today={today} />)}
+      {groups.map((group) => (
+        <section key={group.key} aria-label={fmtMonth(group.key)}>
+          <h2 className="group-h">{fmtMonth(group.key)}</h2>
+          <div className="hub-list">
+            {group.items.map((t) => <EventCard key={t.id} t={t} today={today} />)}
+          </div>
+        </section>
+      ))}
       {undated.length > 0 && (
-        <>
+        <section aria-label={`Tanggal belum diumumkan, ${undated.length}`}>
           <h2 className="group-h">Tanggal belum diumumkan ({undated.length})</h2>
-          {undated.map((t) => <EventCard key={t.id} t={t} today={today} />)}
-        </>
+          <div className="hub-list">
+            {undated.map((t) => <EventCard key={t.id} t={t} today={today} />)}
+          </div>
+        </section>
       )}
     </div>
   );
@@ -267,25 +328,25 @@ function EventList({ rows, today }: { rows: Tournament[]; today: DayKey }) {
 
 function EventCard({ t, today }: { t: Tournament; today: DayKey }) {
   const href = eventHref(t);
+  const when = dateBlock(t);
+  const where = [t.venue, placeLine(t)].filter(Boolean).join(" · ");
   return (
-    <article className={`ev${isPast(t, today) ? " past" : ""}`}>
-      <div className={`band g${t.tone}`}>
-        <div>
-          <EventDate t={t} />
-          <h2>
-            <Link href={href}>{t.name}</Link>
-          </h2>
-          <Place t={t} />
-          <Badges t={t} today={today} />
-          <div className="actions">
-            <Link className="btn btn-light" href={href}>
-              Info turnamen <span aria-hidden="true">›</span>
-            </Link>
-          </div>
-        </div>
-        <Side t={t} today={today} />
+    <article className={`hub-card${isPast(t, today) ? " is-past" : ""}${t.unconfirmed ? " is-unconf" : ""}`}>
+      <div className="hub-date" aria-hidden="true">
+        <b>{when.day}</b>
+        <span>{when.month}</span>
+        {when.year ? <small>{when.year}</small> : null}
       </div>
-      <dl className="facts">
+      <div className="hub-body">
+        <h3>
+          <Link className="hub-name" href={href}>{t.name}</Link>
+        </h3>
+        <p className="hub-where">{where || <span className="na">Lokasi {NA.toLowerCase()}</span>}</p>
+        <p className="hub-when">{t.start ? fmtRange(t.start, t.end) : "Tanggal belum diumumkan"}</p>
+        <Badges t={t} today={today} />
+        <span className="hub-go" aria-hidden="true">Info turnamen ›</span>
+      </div>
+      <dl className="hub-facts">
         <div>
           <dt>Biaya pendaftaran</dt>
           <dd><Val v={t.fee} /></dd>
@@ -327,7 +388,7 @@ function CalendarView({ rows, month, cal, today, onMonth }: CalendarProps) {
   const title = fmtMonth(shown);
 
   return (
-    <div>
+    <div className="cal-layout">
       <section className="cal" aria-label="Kalender turnamen">
         <div className="cal-head">
           <button type="button" className="navbtn" aria-label="Bulan sebelumnya" onClick={() => onMonth(shiftMonth(shown, -1))}>
@@ -359,6 +420,7 @@ function CalendarView({ rows, month, cal, today, onMonth }: CalendarProps) {
           <span className="u">Belum dikonfirmasi</span>
         </div>
       </section>
+      <div className="cal-side">
       <h2 className="group-h">
         Agenda {title} ({inMonth.length})
       </h2>
@@ -383,6 +445,7 @@ function CalendarView({ rows, month, cal, today, onMonth }: CalendarProps) {
           <p className="na">Tidak ada turnamen di bulan ini dengan filter saat ini.</p>
         )}
         {undated > 0 && <p className="found">{undated} turnamen tanpa tanggal hanya muncul di tampilan Daftar.</p>}
+      </div>
       </div>
     </div>
   );
