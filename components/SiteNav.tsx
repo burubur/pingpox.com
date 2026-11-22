@@ -37,8 +37,10 @@ export function SiteHeader({ events, buildDay }: { events: ChromeEvent[]; buildD
   const ignoreFocus = useRef(false);
   const panelId = useId();
   const navId = useId();
+  // Path only: "/" is Beranda, "/turnamen" and "/turnamen/…" are Turnamen.
+  // Query strings such as ?q= or ?tampilan=kalender stay on Beranda.
   const onHome = path === "/";
-  const onEvents = onHome || path.startsWith("/turnamen");
+  const onEvents = path === "/turnamen" || !!path?.startsWith("/turnamen/");
 
   useEffect(() => {
     setPanel(false);
@@ -124,6 +126,7 @@ export function SiteHeader({ events, buildDay }: { events: ChromeEvent[]; buildD
               ref={turnamenBtn}
               type="button"
               className={onEvents ? "on" : undefined}
+              aria-current={onEvents ? "page" : undefined}
               aria-expanded={panel}
               aria-controls={panelId}
               aria-haspopup="true"
