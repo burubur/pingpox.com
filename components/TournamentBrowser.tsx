@@ -120,9 +120,9 @@ function TournamentBrowser({ tournaments, buildDay, hasSample, initial }: Props 
 
   return (
     <>
-      <div className="subbar">
+      <div className="subbar" id="jadwal">
         <div className="wrap">
-          <h1>Turnamen</h1>
+          <p className="page-title">Turnamen</p>
           <div className="seg" role="group" aria-label="Tampilan">
             <button type="button" aria-pressed={f.view === "list"} onClick={() => set({ view: "list" })}>
               Daftar
