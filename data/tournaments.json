@@ -1,56 +1,6 @@
 {
-  "updated_at": "2026-11-21T00:03:20+07:00",
+  "updated_at": "2026-11-23T08:20:00+07:00",
   "tournaments": [
-    {
-      "id": "porprov-viii-kaltim-2026-tenis-meja",
-      "name": "Porprov VIII Kalimantan Timur 2026 - Tenis Meja",
-      "start_date": "2026-11-18",
-      "end_date": "2026-11-22",
-      "city": "Tanah Grogot (Paser)",
-      "province": "Kalimantan Timur",
-      "venue": "GOR Tenis Meja, Kompleks Stadion Sadurengas, Tanah Grogot",
-      "categories": [],
-      "registration_fee": null,
-      "registration_deadline": null,
-      "organizer": "KONI Kalimantan Timur / PTMSI Kaltim / panitia Porprov VIII",
-      "contact": null,
-      "source_urls": [
-        "https://kaltimedia.com/2026/11/19/tenis-meja-porprov-kaltim-jadi-tiket-menuju-pon-2028/",
-        "https://mediacenter.paserkab.go.id/berita/buka-tenis-meja-porprov-kaltim-ke-8-bupati-paser-ajang-ini-seleksi-atlet-menuju-pon-2028",
-        "https://kaltimpost.jawapos.com/olahraga-daerah/2611190115/tenis-meja-balikpapan-raih-dua-perunggu-di-porprov-kaltim-2026-masih-bidik-tiga-medali-emas"
-      ],
-      "date_found": "2026-11-21",
-      "status": "confirmed",
-      "notes": "Sudah berlangsung: dibuka 18 November 2026, berakhir 22 November 2026. Diikuti 57 atlet (30 putra, 27 putri) dari 8 kabupaten/kota; Berau dan Mahakam Ulu tidak mengirim atlet. Berita 19 November menyinggung nomor beregu putra dan putri plus nomor lanjutan, tetapi daftar kategori lengkap belum ditemukan. Hanya untuk atlet kontingen kabupaten/kota, bukan pendaftaran terbuka."
-    },
-    {
-      "id": "ostrich-cup-1-2026",
-      "name": "Ostrich Cup 1 2026",
-      "start_date": "2026-11-21",
-      "end_date": "2026-11-22",
-      "city": "Subang",
-      "province": "Jawa Barat",
-      "venue": "Pingpong Center Ostrich Mini Zoo Subang",
-      "categories": [
-        "U-12 Putra (tingkat Jawa Barat)",
-        "U-12 Putri (tingkat Jawa Barat)",
-        "U-15 Putra (tingkat Jawa Barat)",
-        "U-15 Putri (tingkat Jawa Barat)",
-        "Divisi 8 se-Kabupaten Subang",
-        "Divisi 9 se-Kabupaten Subang",
-        "Divisi 10 se-Kabupaten Subang"
-      ],
-      "registration_fee": "U-12 & U-15: Rp40.000; Divisi 8, 9, 10: Rp20.000",
-      "registration_deadline": null,
-      "organizer": "Ostrich Mini Zoo dan Kafe Subang bersama PTM Melati (dukungan PTMSI Kabupaten Subang, PTMSI Jawa Barat, dan FPMSI)",
-      "contact": "pendaftaran U-12/U-15: https://bit.ly/ostrichcup1",
-      "source_urls": [
-        "https://www.lampusatu.com/olahraga/ostrich-cup-1-2026-siap-digelar-hadiahkan-total-penghargaan-jutaan-rupiah-dan-jadi-panggung-atlet-tenis-meja-jawa-barat/"
-      ],
-      "date_found": "2026-11-21",
-      "status": "unconfirmed",
-      "notes": "Preview berita 20 November 2026 untuk pelaksanaan 21–22 November 2026. Batas pendaftaran tidak disebutkan. Divisi 8–10 khusus se-Kabupaten Subang; U-12 dan U-15 tingkat Jawa Barat. Poster resmi PTMSI belum terlihat; hasil pertandingan belum dipublikasikan pada saat pencatatan."
-    },
     {
       "id": "piala-walikota-tebing-tinggi-2026",
       "name": "Kejuaraan Tenis Meja Piala Wali Kota Tebing Tinggi 2026",
@@ -313,6 +263,26 @@
       "date_found": "2026-11-17",
       "status": "unconfirmed",
       "notes": "Hanya daftar peserta yang terlihat (diunggah 17 November 2026). Daftar kategori umum sudah ditutup; kategori SD tersisa 1 slot. Tanggal, venue, biaya, dan penyelenggara tidak disebutkan. Kemungkinan di wilayah Sukabumi, Jawa Barat, tetapi belum terverifikasi."
+    },
+    {
+      "id": "piala-kapolda-jateng-2027",
+      "name": "Kejuaraan Tenis Meja Terbuka Nasional Piala Kapolda Jateng 2027",
+      "start_date": null,
+      "end_date": null,
+      "city": "Semarang",
+      "province": "Jawa Tengah",
+      "venue": null,
+      "categories": [],
+      "registration_fee": null,
+      "registration_deadline": null,
+      "organizer": "Pengprov PTMSI Jawa Tengah",
+      "contact": null,
+      "source_urls": [
+        "https://wartanasional.com/pengprov-ptmsi-jateng-audiensi-dengan-kapolda-siapkan-kejuaraan-tenis-meja-nasional-piala-kapolda-2027/"
+      ],
+      "date_found": "2026-11-23",
+      "status": "unconfirmed",
+      "notes": "Masih rencana: disampaikan Pengprov PTMSI Jateng saat audiensi dengan Kapolda Jateng (16 November 2026). Direncanakan awal 2027 di Kota Semarang, skala nasional terbuka. Tanggal, venue, kategori, biaya, dan batas pendaftaran belum diumumkan."
     }
   ]
 }
