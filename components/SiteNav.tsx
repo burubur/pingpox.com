@@ -61,6 +61,7 @@ export function SiteHeader({ events, buildDay }: { events: ChromeEvent[]; buildD
   const suppressAbout = useRef(false);
   const onHome = !onAbout && path === "/";
   const onEvents = !onAbout && (path === "/turnamen" || !!path?.startsWith("/turnamen/"));
+  const onPlayers = !onAbout && (path === "/pemain" || !!path?.startsWith("/pemain/"));
 
   useLayoutEffect(() => {
     let timer = 0;
@@ -321,6 +322,14 @@ export function SiteHeader({ events, buildDay }: { events: ChromeEvent[]; buildD
               </div>
             </div>
           </div>
+          <a
+            href="/pemain"
+            className={onPlayers ? "on" : undefined}
+            aria-current={onPlayers ? "page" : undefined}
+            onClick={close}
+          >
+            Pemain
+          </a>
           <a
             href="#tentang"
             className={onAbout ? "on" : undefined}

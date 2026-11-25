@@ -58,6 +58,14 @@ export function SiteFooter({
             )}
           </div>
           <div className="foot-col">
+            <h2>Pemain</h2>
+            <ul>
+              <li>
+                <a href="/pemain">Direktori</a>
+              </li>
+            </ul>
+          </div>
+          <div className="foot-col">
             <h2>Data</h2>
             <p>
               Data dari <code>tournaments.json</code>, dikumpulkan dari sumber publik. Info bisa berubah; konfirmasi ke
