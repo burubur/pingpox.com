@@ -1,6 +1,15 @@
+"use client";
+
 import Link from "next/link";
 import type { NewsArticle, ScheduleNotice } from "@/lib/news";
-import { fmtDay } from "@/lib/tournament";
+import { useToday } from "@/lib/use-today";
+import { fmtDay, type DayKey } from "@/lib/tournament";
+
+function visibleNotices(notices: ScheduleNotice[], today: DayKey): ScheduleNotice[] {
+  return notices
+    .filter((notice) => notice.last >= today)
+    .map((notice) => ({ ...notice, live: notice.start <= today && notice.last >= today }));
+}
 
 function DateMark({ day }: { day: string | null }) {
   if (!day) {
@@ -22,7 +31,17 @@ function DateMark({ day }: { day: string | null }) {
   );
 }
 
-export function NewsList({ articles, notices }: { articles: NewsArticle[]; notices: ScheduleNotice[] }) {
+export function NewsList({
+  articles,
+  notices,
+  buildDay,
+}: {
+  articles: NewsArticle[];
+  notices: ScheduleNotice[];
+  buildDay: DayKey;
+}) {
+  const today = useToday(buildDay);
+  const shown = visibleNotices(notices, today);
   return (
     <div className="hub" id="berita">
       <div className="hub-head">
@@ -40,7 +59,7 @@ export function NewsList({ articles, notices }: { articles: NewsArticle[]; notic
             <div className="big" aria-hidden="true">🏓</div>
             <h2>Belum ada berita</h2>
             <p>
-              {notices.length === 0
+              {shown.length === 0
                 ? "Daftar berita masih kosong, dan belum ada turnamen mendatang di jadwal."
                 : "Daftar berita masih kosong. Kartu di bawah hanya mengulang turnamen mendatang dari jadwal, bukan liputan."}
             </p>
@@ -67,11 +86,11 @@ export function NewsList({ articles, notices }: { articles: NewsArticle[]; notic
             ))}
           </ul>
         )}
-        {notices.length > 0 ? (
+        {shown.length > 0 ? (
           <section className="news-notices" aria-labelledby="pengumuman-jadwal">
             <h2 id="pengumuman-jadwal">Pengumuman jadwal</h2>
             <ul className="hub-list news-list">
-              {notices.map((notice) => (
+              {shown.map((notice) => (
                 <li key={notice.slug}>
                   <article className="hub-card">
                     <DateMark day={notice.published} />

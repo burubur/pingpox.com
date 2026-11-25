@@ -34,9 +34,10 @@ export function generateMetadata({ params }: Params): Metadata {
 
 export default function NewsArticlePage({ params }: Params) {
   const slug = decodeParam(params.slug);
+  const buildDay = todayKey("Asia/Jakarta");
   const article = getArticle(slug);
-  if (article) return <NewsArticleView story={storyFromArticle(article)} />;
-  const notice = getNotice(getSiteData().tournaments, todayKey("Asia/Jakarta"), slug);
+  if (article) return <NewsArticleView story={storyFromArticle(article)} buildDay={buildDay} start={null} last={null} />;
+  const notice = getNotice(getSiteData().tournaments, buildDay, slug);
   if (!notice) notFound();
-  return <NewsArticleView story={storyFromNotice(notice)} />;
+  return <NewsArticleView story={storyFromNotice(notice)} buildDay={buildDay} start={notice.start} last={notice.last} />;
 }

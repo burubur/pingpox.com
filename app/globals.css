@@ -406,6 +406,10 @@ footer a:focus-visible{outline:2px solid var(--hot2);outline-offset:3px}
 }
 @media(min-width:960px){.player-grid{grid-template-columns:1fr 1fr 1fr}}
 .news-list{list-style:none;margin:0;padding:0 0 8px}
+.news-list .hub-body h2{margin:0;font-family:var(--cond);font-weight:800;font-size:clamp(22px,2.5vw,30px);line-height:1.05;letter-spacing:.01em}
+@media(min-width:800px){
+  .news-list .hub-card{grid-template-columns:92px minmax(0,1fr)}
+}
 .news-notices{margin-top:28px}
 .news-notices h2{margin:0 0 12px;font-family:var(--cond);font-weight:800;font-size:28px;letter-spacing:.04em;text-transform:uppercase}
 .news-body{display:grid;gap:12px;max-width:68ch;padding:8px 0 12px}

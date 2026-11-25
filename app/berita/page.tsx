@@ -16,5 +16,7 @@ export const metadata: Metadata = {
 
 export default function NewsPage() {
   const today = todayKey("Asia/Jakarta");
-  return <NewsList articles={getNews()} notices={scheduleNotices(getSiteData().tournaments, today)} />;
+  return (
+    <NewsList articles={getNews()} notices={scheduleNotices(getSiteData().tournaments, today)} buildDay={today} />
+  );
 }
