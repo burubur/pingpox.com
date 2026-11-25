@@ -1,21 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import Link from "next/link";
 import type { NewsArticle, ScheduleNotice } from "@/lib/news";
-import { fmtDay, todayKey, type DayKey } from "@/lib/tournament";
-
-/** Keep Berlangsung / Mendatang on the visitor's Jakarta date after the static HTML is built. */
-function useJakartaToday(initial: DayKey): DayKey {
-  const [today, setToday] = useState(initial);
-  useEffect(() => {
-    const update = () => setToday(todayKey("Asia/Jakarta"));
-    update();
-    const id = window.setInterval(update, 60_000);
-    return () => window.clearInterval(id);
-  }, []);
-  return today;
-}
+import { useToday } from "@/lib/use-today";
+import { fmtDay, type DayKey } from "@/lib/tournament";
 
 function visibleNotices(notices: ScheduleNotice[], today: DayKey): ScheduleNotice[] {
   return notices
@@ -52,7 +40,7 @@ export function NewsList({
   notices: ScheduleNotice[];
   buildDay: DayKey;
 }) {
-  const today = useJakartaToday(buildDay);
+  const today = useToday(buildDay);
   const shown = visibleNotices(notices, today);
   return (
     <div className="hub" id="berita">

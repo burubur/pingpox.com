@@ -3,7 +3,8 @@
 import Link from "next/link";
 import { useState, type KeyboardEvent as ReactKeyboardEvent } from "react";
 import type { NewsStory } from "@/lib/news";
-import { fmtDay } from "@/lib/tournament";
+import { useToday } from "@/lib/use-today";
+import { fmtDay, type DayKey } from "@/lib/tournament";
 
 const TABS = [
   { id: "isi", label: "Isi" },
@@ -12,8 +13,20 @@ const TABS = [
 
 type TabId = (typeof TABS)[number]["id"];
 
-export function NewsArticleView({ story }: { story: NewsStory }) {
+export function NewsArticleView({
+  story,
+  buildDay,
+  start,
+  last,
+}: {
+  story: NewsStory;
+  buildDay: DayKey;
+  start: DayKey | null;
+  last: DayKey | null;
+}) {
   const [tab, setTab] = useState<TabId>("isi");
+  const today = useToday(buildDay);
+  const kicker = start && last ? (start <= today && last >= today ? "Berlangsung" : "Pengumuman jadwal") : story.kicker;
 
   const onTabKey = (e: ReactKeyboardEvent<HTMLButtonElement>, index: number) => {
     let next = index;
@@ -38,7 +51,7 @@ export function NewsArticleView({ story }: { story: NewsStory }) {
       </div>
       <header className="hero player-hero">
         <div className="band">
-          <p className="lbl">{story.kicker}</p>
+          <p className="lbl">{kicker}</p>
           <h1>{story.title}</h1>
           <p className="player-meta">
             {story.published ? fmtDay(story.published) : "Tanggal belum diisi"}
