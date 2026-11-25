@@ -112,21 +112,39 @@ export function TournamentCarousel({ items, today }: { items: Tournament[]; toda
     }
   }, [loop, n, pad, stride]);
 
+  const applyFit = useCallback(() => {
+    const el = scroller.current;
+    const card = el?.querySelector<HTMLElement>(".tcard");
+    if (!el || !card || n === 0) return;
+    // Real cards only. scrollWidth includes clones and stays stale after they unmount.
+    const need = n * card.offsetWidth + Math.max(0, n - 1) * GAP;
+    const overflows = need > el.clientWidth + 1;
+    setCanScroll(overflows);
+    setLoop(overflows && n > 1);
+  }, [n]);
+
   useLayoutEffect(() => {
     const el = scroller.current;
     if (!el || n === 0) return;
-    const measure = () => {
-      const card = el.querySelector<HTMLElement>(".tcard");
-      if (!card) return;
-      const overflows = n * card.offsetWidth + (n - 1) * GAP > el.clientWidth + 1;
-      setCanScroll(el.scrollWidth > el.clientWidth + 1);
-      setLoop(overflows && n > 1);
+    const ro = new ResizeObserver(applyFit);
+    const watch = () => {
+      ro.disconnect();
+      ro.observe(el);
+      Array.from(el.children).forEach((child) => ro.observe(child));
+      applyFit();
     };
-    measure();
-    const ro = new ResizeObserver(measure);
-    ro.observe(el);
-    return () => ro.disconnect();
-  }, [n]);
+    watch();
+    const mo = new MutationObserver(watch);
+    mo.observe(el, { childList: true });
+    return () => {
+      ro.disconnect();
+      mo.disconnect();
+    };
+  }, [n, applyFit]);
+
+  useLayoutEffect(() => {
+    applyFit();
+  }, [loop, n, applyFit]);
 
   useLayoutEffect(() => {
     const el = scroller.current;
