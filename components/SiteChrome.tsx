@@ -42,6 +42,12 @@ export function SiteFooter({
                 <a href="/pemain">Direktori</a>
               </li>
             </ul>
+            <h2>Berita</h2>
+            <ul>
+              <li>
+                <a href="/berita">Daftar</a>
+              </li>
+            </ul>
           </div>
           <div className="foot-col">
             <h2>Mendatang</h2>
