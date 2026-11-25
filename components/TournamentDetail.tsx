@@ -14,6 +14,16 @@ const TABS = [
 
 type TabId = (typeof TABS)[number]["id"];
 
+function scrollPanelIntoView(id: string) {
+  const panel = document.getElementById(id);
+  if (!panel) return;
+  const top = panel.getBoundingClientRect().top;
+  const barBottom = document.querySelector(".tabs")?.getBoundingClientRect().bottom ?? 108;
+  if (top < barBottom || top > window.innerHeight - 48) {
+    panel.scrollIntoView({ block: "start" });
+  }
+}
+
 /** Known tab hash, the default for an empty hash, or null when the hash is something else. */
 function tabFromHash(): TabId | null {
   const id = window.location.hash.slice(1);
@@ -48,16 +58,14 @@ export default function TournamentDetail({ t, buildDay }: { t: Tournament; build
       skipPanelScroll.current = false;
       return;
     }
-    const panel = document.getElementById(active);
-    if (!panel) return;
-    const top = panel.getBoundingClientRect().top;
-    if (top < 108 || top > window.innerHeight - 48) {
-      panel.scrollIntoView({ block: "start" });
-    }
+    scrollPanelIntoView(active);
   }, [active, ready]);
 
   const selectTab = (id: TabId, push: boolean) => {
     const next = `#${id}`;
+    // Hash can be something else (#tentang) while this tab stays active, so
+    // scrolling cannot wait for `active` to change.
+    if (window.location.hash === next || id === active) scrollPanelIntoView(id);
     if (window.location.hash === next) return;
     const url = `${window.location.pathname}${window.location.search}${next}`;
     if (push) window.history.pushState(null, "", url);
