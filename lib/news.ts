@@ -31,6 +31,9 @@ export type ScheduleNotice = {
   city: string | null;
   source: string | null;
   eventHref: string;
+  /** Inclusive range from the tournament row, so the list can relabel after build. */
+  start: DayKey;
+  last: DayKey;
   live: boolean;
 };
 
@@ -117,6 +120,8 @@ export function scheduleNotices(tournaments: Tournament[], today: DayKey): Sched
         city: t.city.trim() ? t.city.trim() : null,
         source,
         eventHref: eventHref(t),
+        start: t.start!,
+        last: t.last!,
         live: t.start! <= today && t.last! >= today,
       };
     })
