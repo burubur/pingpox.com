@@ -119,19 +119,7 @@ function TournamentBrowser({ tournaments, buildDay, hasSample, initial }: Props 
   };
 
   const { rows, pastHidden } = select(false);
-  const listed = tournaments
-    .filter((t) => {
-      const q = f.q.trim().toLowerCase();
-      if (f.loc.startsWith("c:") && t.city !== f.loc.slice(2)) return false;
-      if (f.loc.startsWith("p:") && t.province !== f.loc.slice(2)) return false;
-      if (f.month && (!t.start || monthKey(t.start) !== f.month)) return false;
-      if (q && !t.search.includes(q)) return false;
-      if (f.onlyConf && t.unconfirmed) return false;
-      return true;
-    })
-    .sort(compareByStart);
-  const shown = f.view === "list" ? listed : rows;
-  const nConf = shown.filter((t) => !t.unconfirmed).length;
+  const nConf = rows.filter((t) => !t.unconfirmed).length;
   const reset = () => set({ q: "", loc: "", month: "", onlyConf: false });
   const noData = tournaments.length === 0;
 
@@ -229,9 +217,9 @@ function TournamentBrowser({ tournaments, buildDay, hasSample, initial }: Props 
 
         <div className="meta">
           <span className="count" aria-live="polite">
-            {noData ? "" : `${shown.length} turnamen · ${nConf} terkonfirmasi`}
+            {noData ? "" : `${rows.length} turnamen · ${nConf} terkonfirmasi`}
           </span>
-          <span>{f.view === "cal" && !noData && pastHidden ? `${pastHidden} sudah lewat disembunyikan` : ""}</span>
+          <span>{!noData && pastHidden ? `${pastHidden} sudah lewat disembunyikan` : ""}</span>
         </div>
 
         {noData ? (
@@ -250,12 +238,12 @@ function TournamentBrowser({ tournaments, buildDay, hasSample, initial }: Props 
             today={today}
             onMonth={(m) => set({ cal: m, month: "" })}
           />
-        ) : listed.length === 0 ? (
+        ) : rows.length === 0 ? (
           <div className="list">
             <EmptyResult pastHidden={pastHidden} onReset={reset} />
           </div>
         ) : (
-          <TournamentCarousel items={listed} />
+          <TournamentCarousel items={rows} />
         )}
       </main>
       </div>

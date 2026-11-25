@@ -52,8 +52,8 @@ function Card({ t, clone }: { t: Tournament; clone?: boolean }) {
       )}
       {showFeeRow && (
         <p className="tcard-fee">
-          {t.fee ? <span>{t.fee}</span> : <span />}
-          {deadline ? <span>{deadline}</span> : null}
+          {t.fee ? <span>{t.fee}</span> : null}
+          {deadline ? <span className="tcard-deadline">Daftar s/d {deadline}</span> : null}
         </p>
       )}
       {t.unconfirmed ? <p className="tcard-unconf">Belum dikonfirmasi</p> : null}
@@ -65,6 +65,8 @@ function Card({ t, clone }: { t: Tournament; clone?: boolean }) {
 export function TournamentCarousel({ items }: { items: Tournament[] }) {
   const scroller = useRef<HTMLDivElement>(null);
   const drag = useRef({ on: false, x: 0, left: 0, moved: false });
+  const wheeling = useRef(false);
+  const wheelIdle = useRef(0);
   const [loop, setLoop] = useState(false);
   const [index, setIndex] = useState(0);
   const [reduced, setReduced] = useState(false);
@@ -101,7 +103,7 @@ export function TournamentCarousel({ items }: { items: Tournament[] }) {
   const normalize = useCallback(() => {
     const el = scroller.current;
     const step = stride();
-    if (!el || !step || !loop || n === 0) return;
+    if (!el || !step || !loop || n === 0 || wheeling.current) return;
     const i = Math.round(el.scrollLeft / step);
     if (i < pad || i >= pad + n) {
       const next = pad + ((((i - pad) % n) + n) % n);
@@ -152,15 +154,36 @@ export function TournamentCarousel({ items }: { items: Tournament[] }) {
     const el = scroller.current;
     if (!el) return;
     const onWheel = (e: WheelEvent) => {
-      const horizontal = Math.abs(e.deltaX) > Math.abs(e.deltaY) || e.shiftKey;
-      if (!horizontal) return;
+      const dx = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.shiftKey ? e.deltaY : 0;
+      if (!dx) return;
       if (el.scrollWidth <= el.clientWidth + 1) return;
-      el.scrollLeft += e.shiftKey && Math.abs(e.deltaY) >= Math.abs(e.deltaX) ? e.deltaY : e.deltaX;
       e.preventDefault();
+      // Scroll-snap would pull each small delta back to the current card.
+      wheeling.current = true;
+      el.style.scrollSnapType = "none";
+      el.scrollLeft += dx;
+      window.clearTimeout(wheelIdle.current);
+      wheelIdle.current = window.setTimeout(() => {
+        wheeling.current = false;
+        el.style.scrollSnapType = "";
+        const step = stride();
+        if (!step) return;
+        const i = Math.round(el.scrollLeft / step);
+        el.scrollTo({ left: i * step, behavior: "auto" });
+        if (!loop || n === 0) return;
+        const padNow = Math.min(CLONES, n);
+        if (i < padNow || i >= padNow + n) {
+          const next = padNow + ((((i - padNow) % n) + n) % n);
+          el.scrollTo({ left: next * step, behavior: "auto" });
+        }
+      }, 140);
     };
     el.addEventListener("wheel", onWheel, { passive: false });
-    return () => el.removeEventListener("wheel", onWheel);
-  }, [n]);
+    return () => {
+      window.clearTimeout(wheelIdle.current);
+      el.removeEventListener("wheel", onWheel);
+    };
+  }, [loop, n, stride]);
 
   const go = (dir: number) => {
     const el = scroller.current;
@@ -238,23 +261,23 @@ export function TournamentCarousel({ items }: { items: Tournament[] }) {
         }}
       >
         {slides.map(({ t, clone, key }) => (
-          <div className="tcard-slot" key={key} inert={clone ? true : undefined} aria-hidden={clone ? true : undefined}>
+          <div className="tcard-slot" key={key} aria-hidden={clone ? true : undefined}>
             <Card t={t} clone={clone} />
           </div>
         ))}
       </div>
+      {loop && (
       <div className="carousel-controls">
         <button type="button" className="carousel-btn" aria-label="Turnamen sebelumnya" disabled={atStart} onClick={() => go(-1)}>
           ‹
         </button>
-        <div className="carousel-dots" role="tablist" aria-label="Posisi turnamen">
+        <div className="carousel-dots" aria-label="Posisi turnamen">
           {items.map((t, i) => (
             <button
               key={t.id}
               type="button"
-              role="tab"
-              aria-selected={i === index}
-              aria-label={t.name}
+              aria-label={`Ke kartu ${i + 1}`}
+              aria-current={i === index ? "true" : undefined}
               className={i === index ? "on" : undefined}
               onClick={() => goTo(i)}
             />
@@ -264,6 +287,7 @@ export function TournamentCarousel({ items }: { items: Tournament[] }) {
           ›
         </button>
       </div>
+      )}
     </div>
   );
 }
