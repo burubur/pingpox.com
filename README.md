@@ -1,7 +1,7 @@
 # pingpox.com: Jadwal Turnamen Tenis Meja Indonesia
 
 A Next.js 14 (App Router, TypeScript) site that lists table tennis (tenis meja / ping pong) tournaments in Indonesia.
-All pages are generated at build time from one data file, **`data/tournaments.json`**.
+Tournament pages are generated at build time from **`data/tournaments.json`**. The player directory reads **`data/players.json`**, which is an empty array until a separately approved update.
 
 ## Pages
 
@@ -10,6 +10,8 @@ All pages are generated at build time from one data file, **`data/tournaments.js
   (`?tampilan=kalender&q=…&lokasi=c:Bandung&bulan=2026-12&konfirmasi=1&lewat=1&kal=2026-12`), so a filtered view can be shared.
 - **`/turnamen/<id>`**: one page per tournament (Ikhtisar, Divisi, Pendaftaran, Sumber), statically generated with its own
   title and Open Graph tags. Unknown ids return the "Turnamen tidak ditemukan" 404 page.
+- **`/pemain`**: player directory with search and gender, province, and category filters. With an empty `players.json` it shows "Data pemain segera hadir".
+- **`/pemain/<id>`**: one page per player id in `data/players.json` (header, stats, Hasil terkini, Riwayat turnamen). Unknown ids return "Pemain tidak ditemukan".
 
 The look is a bold sports-site style inspired by event pages such as worldtabletennis.com, built only from original CSS
 gradients and patterns: no third-party logos, photos, or assets are copied or hotlinked. Fonts are Barlow and Barlow
@@ -31,7 +33,8 @@ components/TournamentDetail.tsx    client: detail body and section tabs
 components/EventParts.tsx      badges, deadline flags, dates, category grid
 lib/data.ts                    reads and validates data/tournaments.json (build time only)
 lib/tournament.ts              types, normalization, date helpers
-data/tournaments.json          the only data file
+data/tournaments.json          tournament data
+data/players.json              player directory (empty array until approved)
 ```
 
 ## Develop

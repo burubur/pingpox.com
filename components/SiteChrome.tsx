@@ -36,6 +36,12 @@ export function SiteFooter({
                 <a href={CALENDAR_HREF}>Kalender</a>
               </li>
             </ul>
+            <h2>Pemain</h2>
+            <ul>
+              <li>
+                <a href="/pemain">Direktori</a>
+              </li>
+            </ul>
           </div>
           <div className="foot-col">
             <h2>Mendatang</h2>
