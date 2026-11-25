@@ -56,13 +56,15 @@ export function SiteHeader({ events, buildDay }: { events: ChromeEvent[]; buildD
   // #tentang is a section on the current page. The underline follows whether that
   // section is in view, and also the URL after filters rewrite it. Any other hash
   // keeps the path rules: "/" is Beranda, "/turnamen" and "/turnamen/…" are Turnamen.
-  // "/pemain" and "/pemain/…" stay Pemain even when #tentang is in view.
+  // "/pemain" and "/berita" stay active from the path alone, including when
+  // #tentang is in view on a short page. Only one top-level item is underlined.
   const [onAbout, setOnAbout] = useState(false);
   const pendingAbout = useRef(false);
   const suppressAbout = useRef(false);
   const onHome = !onAbout && path === "/";
   const onEvents = !onAbout && (path === "/turnamen" || !!path?.startsWith("/turnamen/"));
   const onPlayers = path === "/pemain" || !!path?.startsWith("/pemain/");
+  const onNews = path === "/berita" || !!path?.startsWith("/berita/");
 
   useLayoutEffect(() => {
     let timer = 0;
@@ -332,9 +334,17 @@ export function SiteHeader({ events, buildDay }: { events: ChromeEvent[]; buildD
             Pemain
           </a>
           <a
+            href="/berita"
+            className={onNews ? "on" : undefined}
+            aria-current={onNews ? "page" : undefined}
+            onClick={close}
+          >
+            Berita
+          </a>
+          <a
             href="#tentang"
-            className={onAbout && !onPlayers ? "on" : undefined}
-            aria-current={onAbout && !onPlayers ? "location" : undefined}
+            className={onAbout && !onPlayers && !onNews ? "on" : undefined}
+            aria-current={onAbout && !onPlayers && !onNews ? "location" : undefined}
             onClick={(e) => {
               suppressAbout.current = false;
               pendingAbout.current = !tentangInView(headerRef.current);
