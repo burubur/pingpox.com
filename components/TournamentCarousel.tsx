@@ -67,8 +67,8 @@ function Card({ t, clone, today }: { t: Tournament; clone?: boolean; today: DayK
 
 export function TournamentCarousel({ items, today }: { items: Tournament[]; today: DayKey }) {
   const scroller = useRef<HTMLDivElement>(null);
-  const drag = useRef({ on: false, x: 0, left: 0, moved: false });
   const [loop, setLoop] = useState(false);
+  const [canScroll, setCanScroll] = useState(false);
   const [index, setIndex] = useState(0);
   const [reduced, setReduced] = useState(false);
   const n = items.length;
@@ -104,7 +104,7 @@ export function TournamentCarousel({ items, today }: { items: Tournament[]; toda
   const normalize = useCallback(() => {
     const el = scroller.current;
     const step = stride();
-    if (!el || !step || !loop || n === 0 || drag.current.on) return;
+    if (!el || !step || !loop || n === 0) return;
     const i = Math.round(el.scrollLeft / step);
     if (i < pad || i >= pad + n) {
       const next = pad + ((((i - pad) % n) + n) % n);
@@ -119,6 +119,7 @@ export function TournamentCarousel({ items, today }: { items: Tournament[]; toda
       const card = el.querySelector<HTMLElement>(".tcard");
       if (!card) return;
       const overflows = n * card.offsetWidth + (n - 1) * GAP > el.clientWidth + 1;
+      setCanScroll(el.scrollWidth > el.clientWidth + 1);
       setLoop(overflows && n > 1);
     };
     measure();
@@ -168,25 +169,8 @@ export function TournamentCarousel({ items, today }: { items: Tournament[]; toda
     el.scrollTo({ left, behavior: reduced ? "auto" : "smooth" });
   };
 
-  const atStart = !loop && index <= 0;
-  const atEnd = !loop && index >= n - 1;
-
-  const endDrag = () => {
-    const el = scroller.current;
-    const wasDragging = drag.current.on;
-    drag.current.on = false;
-    if (!el || !wasDragging) return;
-    const step = stride();
-    if (step) {
-      let i = Math.round(el.scrollLeft / step);
-      if (loop && n > 0) {
-        const padNow = Math.min(CLONES, n);
-        if (i < padNow || i >= padNow + n) i = padNow + ((((i - padNow) % n) + n) % n);
-      }
-      el.scrollTo({ left: i * step, behavior: "auto" });
-    }
-    el.classList.remove("is-free");
-  };
+  const atStart = !canScroll || (!loop && index <= 0);
+  const atEnd = !loop && (!canScroll || index >= n - 1);
 
   const onKey = (e: ReactKeyboardEvent<HTMLDivElement>) => {
     if (e.key !== "ArrowLeft" && e.key !== "ArrowRight") return;
@@ -214,30 +198,6 @@ export function TournamentCarousel({ items, today }: { items: Tournament[]; toda
         aria-roledescription="carousel"
         aria-label="Semua turnamen"
         onKeyDown={onKey}
-        onPointerDown={(e) => {
-          if (e.pointerType !== "mouse" || e.button !== 0) return;
-          const el = scroller.current;
-          if (!el) return;
-          drag.current = { on: true, x: e.clientX, left: el.scrollLeft, moved: false };
-          el.classList.add("is-free");
-          el.setPointerCapture(e.pointerId);
-        }}
-        onPointerMove={(e) => {
-          const el = scroller.current;
-          if (!drag.current.on || !el) return;
-          const dx = e.clientX - drag.current.x;
-          if (Math.abs(dx) > 4) drag.current.moved = true;
-          el.scrollLeft = drag.current.left - dx;
-        }}
-        onPointerUp={endDrag}
-        onPointerCancel={endDrag}
-        onLostPointerCapture={endDrag}
-        onClickCapture={(e) => {
-          if (!drag.current.moved) return;
-          e.preventDefault();
-          e.stopPropagation();
-          drag.current.moved = false;
-        }}
       >
         {slides.map(({ t, clone, key }) => (
           <div className="tcard-slot" key={key} aria-hidden={clone ? true : undefined}>
@@ -245,28 +205,28 @@ export function TournamentCarousel({ items, today }: { items: Tournament[]; toda
           </div>
         ))}
       </div>
-      {loop && (
       <div className="carousel-controls">
         <button type="button" className="carousel-btn" aria-label="Turnamen sebelumnya" disabled={atStart} onClick={() => go(-1)}>
           ‹
         </button>
-        <div className="carousel-dots" aria-label="Posisi turnamen">
-          {items.map((t, i) => (
-            <button
-              key={t.id}
-              type="button"
-              aria-label={`Ke kartu ${i + 1}`}
-              aria-current={i === index ? "true" : undefined}
-              className={i === index ? "on" : undefined}
-              onClick={() => goTo(i)}
-            />
-          ))}
-        </div>
+        {canScroll && (
+          <div className="carousel-dots" aria-label="Posisi turnamen">
+            {items.map((t, i) => (
+              <button
+                key={t.id}
+                type="button"
+                aria-label={`Ke kartu ${i + 1}`}
+                aria-current={i === index ? "true" : undefined}
+                className={i === index ? "on" : undefined}
+                onClick={() => goTo(i)}
+              />
+            ))}
+          </div>
+        )}
         <button type="button" className="carousel-btn" aria-label="Turnamen berikutnya" disabled={atEnd} onClick={() => go(1)}>
           ›
         </button>
       </div>
-      )}
     </div>
   );
 }

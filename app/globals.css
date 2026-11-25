@@ -197,9 +197,7 @@ button{font:inherit}
 .list{display:grid;gap:22px;padding-bottom:28px}
 .hub-list{display:grid;gap:10px}
 .carousel{margin:4px 0 8px}
-.carousel-view{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:auto;scrollbar-width:none;cursor:grab}
-.carousel-view.is-free{scroll-snap-type:none}
-.carousel-view:active{cursor:grabbing}
+.carousel-view{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:auto;scrollbar-width:none}
 .carousel-view::-webkit-scrollbar{display:none}
 .carousel-view:focus-visible{outline:2px solid var(--hot2);outline-offset:3px}
 .tcard-slot{flex:0 0 calc((100% - 12px) / 1.25);scroll-snap-align:start;min-width:0;display:flex}
