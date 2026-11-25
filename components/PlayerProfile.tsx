@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useState, type KeyboardEvent as ReactKeyboardEvent } from "react";
 import { genderLabel, type Player, type PlayerMatch } from "@/lib/player";
 
 const TABS = [
@@ -44,6 +44,20 @@ export function PlayerProfile({ player }: { player: Player }) {
   const [tab, setTab] = useState<TabId>("hasil");
   const meta = [genderLabel(player.gender), player.province, player.category].filter(Boolean);
 
+  const onTabKey = (e: ReactKeyboardEvent<HTMLButtonElement>, index: number) => {
+    let next = index;
+    if (e.key === "ArrowRight") next = (index + 1) % TABS.length;
+    else if (e.key === "ArrowLeft") next = (index - 1 + TABS.length) % TABS.length;
+    else if (e.key === "Home") next = 0;
+    else if (e.key === "End") next = TABS.length - 1;
+    else return;
+    e.preventDefault();
+    const id = TABS[next].id;
+    setTab(id);
+    const el = document.getElementById(`tab-${id}`);
+    if (el instanceof HTMLButtonElement) el.focus();
+  };
+
   return (
     <>
       <div className="backbar">
@@ -65,7 +79,7 @@ export function PlayerProfile({ player }: { player: Player }) {
       </header>
       <div className="tabs">
         <div className="wrap" role="tablist" aria-label="Data pemain">
-          {TABS.map((item) => (
+          {TABS.map((item, index) => (
             <button
               key={item.id}
               type="button"
@@ -73,8 +87,10 @@ export function PlayerProfile({ player }: { player: Player }) {
               id={`tab-${item.id}`}
               aria-selected={tab === item.id}
               aria-controls={item.id}
+              tabIndex={tab === item.id ? 0 : -1}
               className={tab === item.id ? "on" : undefined}
               onClick={() => setTab(item.id)}
+              onKeyDown={(e) => onTabKey(e, index)}
             >
               {item.label}
             </button>
