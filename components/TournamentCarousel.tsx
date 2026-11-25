@@ -35,6 +35,8 @@ function Card({ t, clone }: { t: Tournament; clone?: boolean }) {
     <a
       className="tcard"
       href={eventHref(t)}
+      draggable={false}
+      onDragStart={(e) => e.preventDefault()}
       tabIndex={clone ? -1 : undefined}
       aria-hidden={clone ? true : undefined}
     >
@@ -180,6 +182,11 @@ export function TournamentCarousel({ items }: { items: Tournament[] }) {
   const atStart = !loop && index <= 0;
   const atEnd = !loop && index >= n - 1;
 
+  const endDrag = () => {
+    drag.current.on = false;
+    normalize();
+  };
+
   const onKey = (e: ReactKeyboardEvent<HTMLDivElement>) => {
     if (e.key !== "ArrowLeft" && e.key !== "ArrowRight") return;
     e.preventDefault();
@@ -220,10 +227,9 @@ export function TournamentCarousel({ items }: { items: Tournament[] }) {
           if (Math.abs(dx) > 4) drag.current.moved = true;
           el.scrollLeft = drag.current.left - dx;
         }}
-        onPointerUp={() => {
-          drag.current.on = false;
-          normalize();
-        }}
+        onPointerUp={endDrag}
+        onPointerCancel={endDrag}
+        onLostPointerCapture={endDrag}
         onClickCapture={(e) => {
           if (!drag.current.moved) return;
           e.preventDefault();
