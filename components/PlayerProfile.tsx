@@ -24,8 +24,7 @@ function MatchList({ rows, empty }: { rows: PlayerMatch[]; empty: string }) {
   if (rows.length === 0) {
     return (
       <div className="empty-state">
-        <h3>Data pemain segera hadir</h3>
-        <p>{empty}</p>
+        <h3>{empty}</h3>
       </div>
     );
   }

@@ -390,6 +390,7 @@ footer a:focus-visible{outline:2px solid var(--hot2);outline-offset:3px}
 .player-copy strong{font-family:var(--cond);font-weight:800;font-size:22px;line-height:1.1;letter-spacing:.01em}
 .player-copy span{color:var(--muted);font-size:14px}
 .player-hero .player-meta{margin:0;color:#d7dae2;font-size:16px}
+.player-hero .band{grid-template-columns:minmax(0,1fr)}
 .player-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:18px;max-width:420px}
 .player-stat{background:rgba(10,12,18,.72);border:1px solid var(--line-d);border-radius:12px;padding:10px 12px}
 .player-stat b{display:block;font-family:var(--cond);font-weight:800;font-size:28px;line-height:1}
