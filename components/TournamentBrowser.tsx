@@ -10,7 +10,7 @@ import {
   type DayKey, type Tournament,
 } from "@/lib/tournament";
 import { useToday } from "@/lib/use-today";
-import { Badges, Deadline, Val } from "./EventParts";
+import { TournamentCarousel } from "./TournamentCarousel";
 
 
 
@@ -119,7 +119,19 @@ function TournamentBrowser({ tournaments, buildDay, hasSample, initial }: Props 
   };
 
   const { rows, pastHidden } = select(false);
-  const nConf = rows.filter((t) => !t.unconfirmed).length;
+  const listed = tournaments
+    .filter((t) => {
+      const q = f.q.trim().toLowerCase();
+      if (f.loc.startsWith("c:") && t.city !== f.loc.slice(2)) return false;
+      if (f.loc.startsWith("p:") && t.province !== f.loc.slice(2)) return false;
+      if (f.month && (!t.start || monthKey(t.start) !== f.month)) return false;
+      if (q && !t.search.includes(q)) return false;
+      if (f.onlyConf && t.unconfirmed) return false;
+      return true;
+    })
+    .sort(compareByStart);
+  const shown = f.view === "list" ? listed : rows;
+  const nConf = shown.filter((t) => !t.unconfirmed).length;
   const reset = () => set({ q: "", loc: "", month: "", onlyConf: false });
   const noData = tournaments.length === 0;
 
@@ -217,9 +229,9 @@ function TournamentBrowser({ tournaments, buildDay, hasSample, initial }: Props 
 
         <div className="meta">
           <span className="count" aria-live="polite">
-            {noData ? "" : `${rows.length} turnamen · ${nConf} terkonfirmasi`}
+            {noData ? "" : `${shown.length} turnamen · ${nConf} terkonfirmasi`}
           </span>
-          <span>{!noData && pastHidden ? `${pastHidden} sudah lewat disembunyikan` : ""}</span>
+          <span>{f.view === "cal" && !noData && pastHidden ? `${pastHidden} sudah lewat disembunyikan` : ""}</span>
         </div>
 
         {noData ? (
@@ -238,12 +250,12 @@ function TournamentBrowser({ tournaments, buildDay, hasSample, initial }: Props 
             today={today}
             onMonth={(m) => set({ cal: m, month: "" })}
           />
-        ) : rows.length === 0 ? (
+        ) : listed.length === 0 ? (
           <div className="list">
             <EmptyResult pastHidden={pastHidden} onReset={reset} />
           </div>
         ) : (
-          <EventList rows={rows} today={today} />
+          <TournamentCarousel items={listed} />
         )}
       </main>
       </div>
@@ -283,84 +295,6 @@ function FilterChips({ f, set }: { f: Filters; set: (patch: Partial<Filters>) =>
         </button>
       ))}
     </div>
-  );
-}
-
-function dateBlock(t: Tournament): { day: string; month: string; year: string } {
-  if (!t.start) return { day: "—", month: "Tgl", year: "" };
-  const startDay = dayNumber(t.start);
-  const sameMonth = t.end && t.end > t.start && monthKey(t.end) === monthKey(t.start);
-  const day = sameMonth ? `${startDay}–${dayNumber(t.end!)}` : String(startDay);
-  return { day, month: BULAN[monthIndex(t.start)], year: t.start.slice(0, 4) };
-}
-
-function EventList({ rows, today }: { rows: Tournament[]; today: DayKey }) {
-  const dated = rows.filter((t) => t.start);
-  const undated = rows.filter((t) => !t.start);
-  const groups: { key: string; items: Tournament[] }[] = [];
-  for (const t of dated) {
-    const key = monthKey(t.start!);
-    const last = groups[groups.length - 1];
-    if (last && last.key === key) last.items.push(t);
-    else groups.push({ key, items: [t] });
-  }
-  return (
-    <div className="list">
-      {groups.map((group) => (
-        <section key={group.key} aria-label={fmtMonth(group.key)}>
-          <h2 className="group-h">{fmtMonth(group.key)}</h2>
-          <div className="hub-list">
-            {group.items.map((t) => <EventCard key={t.id} t={t} today={today} />)}
-          </div>
-        </section>
-      ))}
-      {undated.length > 0 && (
-        <section aria-label={`Tanggal belum diumumkan, ${undated.length}`}>
-          <h2 className="group-h">Tanggal belum diumumkan ({undated.length})</h2>
-          <div className="hub-list">
-            {undated.map((t) => <EventCard key={t.id} t={t} today={today} />)}
-          </div>
-        </section>
-      )}
-    </div>
-  );
-}
-
-function EventCard({ t, today }: { t: Tournament; today: DayKey }) {
-  const href = eventHref(t);
-  const when = dateBlock(t);
-  const where = [t.venue, placeLine(t)].filter(Boolean).join(" · ");
-  return (
-    <article className={`hub-card${isPast(t, today) ? " is-past" : ""}${t.unconfirmed ? " is-unconf" : ""}`}>
-      <div className="hub-date" aria-hidden="true">
-        <b>{when.day}</b>
-        <span>{when.month}</span>
-        {when.year ? <small>{when.year}</small> : null}
-      </div>
-      <div className="hub-body">
-        <h3>
-          <Link className="hub-name" href={href}>{t.name}</Link>
-        </h3>
-        <p className="hub-where">{where || <span className="na">Lokasi {NA.toLowerCase()}</span>}</p>
-        <p className="hub-when">{t.start ? fmtRange(t.start, t.end) : "Tanggal belum diumumkan"}</p>
-        <Badges t={t} today={today} />
-        <span className="hub-go" aria-hidden="true">Info turnamen ›</span>
-      </div>
-      <dl className="hub-facts">
-        <div>
-          <dt>Biaya pendaftaran</dt>
-          <dd><Val v={t.fee} /></dd>
-        </div>
-        <div>
-          <dt>Batas pendaftaran</dt>
-          <dd><Deadline t={t} today={today} /></dd>
-        </div>
-        <div>
-          <dt>Penyelenggara</dt>
-          <dd><Val v={t.organizer} /></dd>
-        </div>
-      </dl>
-    </article>
   );
 }
 
