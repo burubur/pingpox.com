@@ -1,6 +1,6 @@
 "use client";
 
-import { useLayoutEffect, useState, type KeyboardEvent as ReactKeyboardEvent } from "react";
+import { useLayoutEffect, useRef, useState, type KeyboardEvent as ReactKeyboardEvent } from "react";
 import { NA, fmtDay, fmtRange, safeUrl, type DayKey, type Tournament } from "@/lib/tournament";
 import { useToday } from "@/lib/use-today";
 import { Badges, Deadline, EventDate, Place, Side, Val } from "./EventParts";
@@ -14,18 +14,24 @@ const TABS = [
 
 type TabId = (typeof TABS)[number]["id"];
 
-function tabFromHash(): TabId {
+/** Known tab hash, the default for an empty hash, or null when the hash is something else. */
+function tabFromHash(): TabId | null {
   const id = window.location.hash.slice(1);
-  return TABS.some((tab) => tab.id === id) ? (id as TabId) : "ikhtisar";
+  if (!id) return "ikhtisar";
+  return TABS.some((tab) => tab.id === id) ? (id as TabId) : null;
 }
 
 export default function TournamentDetail({ t, buildDay }: { t: Tournament; buildDay: DayKey }) {
   const today = useToday(buildDay);
   const [active, setActive] = useState<TabId>("ikhtisar");
   const [ready, setReady] = useState(false);
+  const skipPanelScroll = useRef(true);
 
   useLayoutEffect(() => {
-    const sync = () => setActive(tabFromHash());
+    const sync = () => {
+      const tab = tabFromHash();
+      if (tab) setActive(tab);
+    };
     sync();
     setReady(true);
     window.addEventListener("hashchange", sync);
@@ -35,6 +41,20 @@ export default function TournamentDetail({ t, buildDay }: { t: Tournament; build
       window.removeEventListener("popstate", sync);
     };
   }, []);
+
+  useLayoutEffect(() => {
+    if (!ready) return;
+    if (skipPanelScroll.current) {
+      skipPanelScroll.current = false;
+      return;
+    }
+    const panel = document.getElementById(active);
+    if (!panel) return;
+    const top = panel.getBoundingClientRect().top;
+    if (top < 108 || top > window.innerHeight - 48) {
+      panel.scrollIntoView({ block: "start" });
+    }
+  }, [active, ready]);
 
   const selectTab = (id: TabId, push: boolean) => {
     const next = `#${id}`;
@@ -60,7 +80,7 @@ export default function TournamentDetail({ t, buildDay }: { t: Tournament; build
   };
 
   return (
-    <>
+    <main>
       <section className="hero">
         <div className={`band g${t.tone}`}>
           <div>
@@ -197,7 +217,7 @@ export default function TournamentDetail({ t, buildDay }: { t: Tournament; build
           </section>
         </div>
       </div>
-    </>
+    </main>
   );
 }
 
