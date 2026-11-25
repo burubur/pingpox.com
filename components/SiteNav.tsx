@@ -325,11 +325,14 @@ export function SiteHeader({ events, buildDay }: { events: ChromeEvent[]; buildD
             href="#tentang"
             className={onAbout ? "on" : undefined}
             aria-current={onAbout ? "location" : undefined}
-            onClick={() => {
+            onClick={(e) => {
               suppressAbout.current = false;
               pendingAbout.current = !tentangInView(headerRef.current);
               setOnAbout(true);
               close();
+              if (window.location.hash !== "#tentang") return;
+              e.preventDefault();
+              document.getElementById("tentang")?.scrollIntoView({ block: "start" });
             }}
           >
             Tentang data
