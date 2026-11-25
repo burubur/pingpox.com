@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useLayoutEffect, useRef, useState, type KeyboardEvent as ReactKeyboardEvent } from "react";
-import { BULAN_PANJANG, eventHref, fmtDay, placeLine, type Tournament } from "@/lib/tournament";
+import { BULAN_PANJANG, daysBetween, eventHref, fmtDay, isPast, placeLine, type DayKey, type Tournament } from "@/lib/tournament";
 
 const CLONES = 4;
 const GAP = 12;
@@ -26,14 +26,15 @@ function deadlineLabel(t: Tournament): string | null {
   return t.deadlineText;
 }
 
-function Card({ t, clone }: { t: Tournament; clone?: boolean }) {
+function Card({ t, clone, today }: { t: Tournament; clone?: boolean; today: DayKey }) {
   const place = placeLine(t);
   const when = cardWhen(t);
   const deadline = deadlineLabel(t);
+  const closed = t.deadline != null && daysBetween(today, t.deadline) < 0;
   const showFeeRow = Boolean(t.fee || deadline);
   return (
     <a
-      className="tcard"
+      className={`tcard${isPast(t, today) ? " is-past" : ""}`}
       href={eventHref(t)}
       draggable={false}
       onDragStart={(e) => e.preventDefault()}
@@ -53,7 +54,9 @@ function Card({ t, clone }: { t: Tournament; clone?: boolean }) {
       {showFeeRow && (
         <p className="tcard-fee">
           {t.fee ? <span>{t.fee}</span> : null}
-          {deadline ? <span className="tcard-deadline">Daftar s/d {deadline}</span> : null}
+          {deadline ? (
+            <span className="tcard-deadline">{closed ? "Pendaftaran ditutup" : `Daftar s/d ${deadline}`}</span>
+          ) : null}
         </p>
       )}
       {t.unconfirmed ? <p className="tcard-unconf">Belum dikonfirmasi</p> : null}
@@ -62,11 +65,9 @@ function Card({ t, clone }: { t: Tournament; clone?: boolean }) {
   );
 }
 
-export function TournamentCarousel({ items }: { items: Tournament[] }) {
+export function TournamentCarousel({ items, today }: { items: Tournament[]; today: DayKey }) {
   const scroller = useRef<HTMLDivElement>(null);
   const drag = useRef({ on: false, x: 0, left: 0, moved: false });
-  const wheeling = useRef(false);
-  const wheelIdle = useRef(0);
   const [loop, setLoop] = useState(false);
   const [index, setIndex] = useState(0);
   const [reduced, setReduced] = useState(false);
@@ -103,7 +104,7 @@ export function TournamentCarousel({ items }: { items: Tournament[] }) {
   const normalize = useCallback(() => {
     const el = scroller.current;
     const step = stride();
-    if (!el || !step || !loop || n === 0 || wheeling.current) return;
+    if (!el || !step || !loop || n === 0 || drag.current.on) return;
     const i = Math.round(el.scrollLeft / step);
     if (i < pad || i >= pad + n) {
       const next = pad + ((((i - pad) % n) + n) % n);
@@ -150,41 +151,6 @@ export function TournamentCarousel({ items }: { items: Tournament[] }) {
     };
   }, [logicalIndex, normalize, stride]);
 
-  useEffect(() => {
-    const el = scroller.current;
-    if (!el) return;
-    const onWheel = (e: WheelEvent) => {
-      const dx = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.shiftKey ? e.deltaY : 0;
-      if (!dx) return;
-      if (el.scrollWidth <= el.clientWidth + 1) return;
-      e.preventDefault();
-      // Scroll-snap would pull each small delta back to the current card.
-      wheeling.current = true;
-      el.style.scrollSnapType = "none";
-      el.scrollLeft += dx;
-      window.clearTimeout(wheelIdle.current);
-      wheelIdle.current = window.setTimeout(() => {
-        wheeling.current = false;
-        el.style.scrollSnapType = "";
-        const step = stride();
-        if (!step) return;
-        const i = Math.round(el.scrollLeft / step);
-        el.scrollTo({ left: i * step, behavior: "auto" });
-        if (!loop || n === 0) return;
-        const padNow = Math.min(CLONES, n);
-        if (i < padNow || i >= padNow + n) {
-          const next = padNow + ((((i - padNow) % n) + n) % n);
-          el.scrollTo({ left: next * step, behavior: "auto" });
-        }
-      }, 140);
-    };
-    el.addEventListener("wheel", onWheel, { passive: false });
-    return () => {
-      window.clearTimeout(wheelIdle.current);
-      el.removeEventListener("wheel", onWheel);
-    };
-  }, [loop, n, stride]);
-
   const go = (dir: number) => {
     const el = scroller.current;
     const step = stride();
@@ -206,8 +172,20 @@ export function TournamentCarousel({ items }: { items: Tournament[] }) {
   const atEnd = !loop && index >= n - 1;
 
   const endDrag = () => {
+    const el = scroller.current;
+    const wasDragging = drag.current.on;
     drag.current.on = false;
-    normalize();
+    if (!el || !wasDragging) return;
+    const step = stride();
+    if (step) {
+      let i = Math.round(el.scrollLeft / step);
+      if (loop && n > 0) {
+        const padNow = Math.min(CLONES, n);
+        if (i < padNow || i >= padNow + n) i = padNow + ((((i - padNow) % n) + n) % n);
+      }
+      el.scrollTo({ left: i * step, behavior: "auto" });
+    }
+    el.classList.remove("is-free");
   };
 
   const onKey = (e: ReactKeyboardEvent<HTMLDivElement>) => {
@@ -241,6 +219,7 @@ export function TournamentCarousel({ items }: { items: Tournament[] }) {
           const el = scroller.current;
           if (!el) return;
           drag.current = { on: true, x: e.clientX, left: el.scrollLeft, moved: false };
+          el.classList.add("is-free");
           el.setPointerCapture(e.pointerId);
         }}
         onPointerMove={(e) => {
@@ -262,7 +241,7 @@ export function TournamentCarousel({ items }: { items: Tournament[] }) {
       >
         {slides.map(({ t, clone, key }) => (
           <div className="tcard-slot" key={key} aria-hidden={clone ? true : undefined}>
-            <Card t={t} clone={clone} />
+            <Card t={t} clone={clone} today={today} />
           </div>
         ))}
       </div>

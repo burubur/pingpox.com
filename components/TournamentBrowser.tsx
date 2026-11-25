@@ -243,7 +243,7 @@ function TournamentBrowser({ tournaments, buildDay, hasSample, initial }: Props 
             <EmptyResult pastHidden={pastHidden} onReset={reset} />
           </div>
         ) : (
-          <TournamentCarousel items={rows} />
+          <TournamentCarousel items={rows} today={today} />
         )}
       </main>
       </div>
