@@ -10,7 +10,7 @@ import {
   type DayKey, type Tournament,
 } from "@/lib/tournament";
 import { useToday } from "@/lib/use-today";
-import { Badges, Deadline, Val } from "./EventParts";
+import { TournamentCarousel } from "./TournamentCarousel";
 
 
 
@@ -243,7 +243,7 @@ function TournamentBrowser({ tournaments, buildDay, hasSample, initial }: Props 
             <EmptyResult pastHidden={pastHidden} onReset={reset} />
           </div>
         ) : (
-          <EventList rows={rows} today={today} />
+          <TournamentCarousel items={rows} today={today} />
         )}
       </main>
       </div>
@@ -283,84 +283,6 @@ function FilterChips({ f, set }: { f: Filters; set: (patch: Partial<Filters>) =>
         </button>
       ))}
     </div>
-  );
-}
-
-function dateBlock(t: Tournament): { day: string; month: string; year: string } {
-  if (!t.start) return { day: "—", month: "Tgl", year: "" };
-  const startDay = dayNumber(t.start);
-  const sameMonth = t.end && t.end > t.start && monthKey(t.end) === monthKey(t.start);
-  const day = sameMonth ? `${startDay}–${dayNumber(t.end!)}` : String(startDay);
-  return { day, month: BULAN[monthIndex(t.start)], year: t.start.slice(0, 4) };
-}
-
-function EventList({ rows, today }: { rows: Tournament[]; today: DayKey }) {
-  const dated = rows.filter((t) => t.start);
-  const undated = rows.filter((t) => !t.start);
-  const groups: { key: string; items: Tournament[] }[] = [];
-  for (const t of dated) {
-    const key = monthKey(t.start!);
-    const last = groups[groups.length - 1];
-    if (last && last.key === key) last.items.push(t);
-    else groups.push({ key, items: [t] });
-  }
-  return (
-    <div className="list">
-      {groups.map((group) => (
-        <section key={group.key} aria-label={fmtMonth(group.key)}>
-          <h2 className="group-h">{fmtMonth(group.key)}</h2>
-          <div className="hub-list">
-            {group.items.map((t) => <EventCard key={t.id} t={t} today={today} />)}
-          </div>
-        </section>
-      ))}
-      {undated.length > 0 && (
-        <section aria-label={`Tanggal belum diumumkan, ${undated.length}`}>
-          <h2 className="group-h">Tanggal belum diumumkan ({undated.length})</h2>
-          <div className="hub-list">
-            {undated.map((t) => <EventCard key={t.id} t={t} today={today} />)}
-          </div>
-        </section>
-      )}
-    </div>
-  );
-}
-
-function EventCard({ t, today }: { t: Tournament; today: DayKey }) {
-  const href = eventHref(t);
-  const when = dateBlock(t);
-  const where = [t.venue, placeLine(t)].filter(Boolean).join(" · ");
-  return (
-    <article className={`hub-card${isPast(t, today) ? " is-past" : ""}${t.unconfirmed ? " is-unconf" : ""}`}>
-      <div className="hub-date" aria-hidden="true">
-        <b>{when.day}</b>
-        <span>{when.month}</span>
-        {when.year ? <small>{when.year}</small> : null}
-      </div>
-      <div className="hub-body">
-        <h3>
-          <Link className="hub-name" href={href}>{t.name}</Link>
-        </h3>
-        <p className="hub-where">{where || <span className="na">Lokasi {NA.toLowerCase()}</span>}</p>
-        <p className="hub-when">{t.start ? fmtRange(t.start, t.end) : "Tanggal belum diumumkan"}</p>
-        <Badges t={t} today={today} />
-        <span className="hub-go" aria-hidden="true">Info turnamen ›</span>
-      </div>
-      <dl className="hub-facts">
-        <div>
-          <dt>Biaya pendaftaran</dt>
-          <dd><Val v={t.fee} /></dd>
-        </div>
-        <div>
-          <dt>Batas pendaftaran</dt>
-          <dd><Deadline t={t} today={today} /></dd>
-        </div>
-        <div>
-          <dt>Penyelenggara</dt>
-          <dd><Val v={t.organizer} /></dd>
-        </div>
-      </dl>
-    </article>
   );
 }
 
