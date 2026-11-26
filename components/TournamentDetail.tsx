@@ -20,7 +20,7 @@ function scrollPanelIntoView(id: string) {
   const top = panel.getBoundingClientRect().top;
   const barBottom = document.querySelector(".tabs")?.getBoundingClientRect().bottom ?? 108;
   if (top < barBottom || top > window.innerHeight - 48) {
-    panel.scrollIntoView({ block: "start" });
+    panel.scrollIntoView({ block: "start", behavior: "smooth" });
   }
 }
 
